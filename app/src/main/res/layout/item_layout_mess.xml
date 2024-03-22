@@ -7,10 +7,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <View
+        android:elevation="1dp"
         android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/colorBorderItemMess"
+        android:background="@color/colorMess"
         app:layout_constraintBottom_toTopOf="@+id/layoutParent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -82,9 +83,10 @@
     </LinearLayout>
 
     <View
+        android:elevation="1dp"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/colorBorderItemMess"
+        android:background="@color/colorMess"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
