@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:myapp="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:showIn="navigation_view">
+
+
+        <item
+
+            android:checkable="true"
+            android:icon="@drawable/ic_call"
+            android:id="@+id/nav_calling"
+            app:actionLayout="@layout/custom_menu_item_layout"
+            android:title="Calling" />
+
+        <item
+
+            android:checkable="true"
+            android:id="@+id/nav_direct"
+            android:icon="@drawable/ic_direct"
+            app:actionLayout="@layout/custom_menu_item_layout"
+            android:title="Direct" />
+
+
+
+
+</menu>

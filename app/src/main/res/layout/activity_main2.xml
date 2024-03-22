@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_camera"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutCheckbox"
+            android:layout_width="wrap_content"
+            android:layout_height="70dp"
+            android:orientation="horizontal"
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <CheckBox
+                android:id="@+id/cbSetting"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/image_checkbox"
+                android:backgroundTint="@null"
+                android:button="@null"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <CheckBox
+                android:id="@+id/cbSound"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/cb_sound"
+                android:button="@null"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/cbSetting"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <CheckBox
+                android:id="@+id/cbRing"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/cb_ring"
+                android:button="@null"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/cbSound"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/img"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/archivo_black"
+        android:text="CALL WITH"
+        android:textColor="@color/black"
+        android:textSize="33sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+
+    <FrameLayout
+        android:id="@+id/frame_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <LinearLayout
+        android:layout_marginBottom="30dp"
+        android:orientation="horizontal"
+        android:id="@+id/bottomNavigationView"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+
+        <LinearLayout
+            android:onClick="onCheckboxClicked"
+            android:layout_weight="1"
+            android:background="@drawable/checkbox_naviagtion_bg_call"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+
+            <CheckBox
+                android:id="@+id/cbNavigationCall"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/checkbox_naviagtion_bg_call"
+                android:backgroundTint="@null"
+                android:button="@drawable/checkbox_checked"
+                android:drawableTop="@drawable/ic_call_navigation"
+                android:scaleX="1.2"
+                android:scaleY="1.2"
+                android:focusable="false"
+                android:gravity="center"
+                android:onClick="onCheckboxClicked"
+                android:buttonTint="@color/cardview_dark_background"
+                android:paddingTop="45dp"
+                android:paddingBottom="20dp"
+                android:text="Calling" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:onClick="onCheckboxClicked"
+            android:layout_weight="1"
+            android:background="@drawable/checkbox_naviagtion_bg_call"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+
+            <CheckBox
+                android:id="@+id/cbNavigationDirect"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/checkbox_naviagtion_bg_call"
+                android:backgroundTint="@null"
+                android:button="@null"
+                android:drawableTop="@drawable/ic_direct"
+                android:scaleX="1.2"
+                android:scaleY="1.2"
+                android:focusable="false"
+                android:gravity="center"
+                android:onClick="onCheckboxClicked"
+                android:paddingTop="45dp"
+                android:paddingBottom="20dp"
+                android:text="Direct" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

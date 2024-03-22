@@ -7,4 +7,24 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+
+        <!--    color custom        -->
+
+    <color name="backgroundBottomNavi">#5CBCFD</color>
+    <color name="itemBackgroundMenu">#305975</color>
+    <color name="backgroundColor">#FF7777</color>
+    <color name="itemBackgroundIcon">#428EC3</color>
+    <color name="colorForCbNotCheck">#95a5a6</color>
+    <color name="colorMess">#7E7D7E</color>
+    <color name="colorBorderItemMess">#95a5a6</color>
+
+
+
+
+
+
+
+
+
 </resources>
