@@ -8,15 +8,15 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "personDB")
-public class User  implements Parcelable {
+public class User implements Parcelable {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
 
-    private String personName ;
-    private String personAvt ;
+    private String personName;
+    private String personAvt;
 
-    private String urlVideo ;
+    private String urlVideo;
 
     public User(String personName, String personAvt, String urlVideo) {
         this.personName = personName;

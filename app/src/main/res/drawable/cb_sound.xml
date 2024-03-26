@@ -2,10 +2,10 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:state_checked="false"
-        android:drawable="@drawable/ic_sound_check"
+        android:drawable="@drawable/ic_sound"
         />
     <item android:state_checked="true"
-        android:drawable="@drawable/ic_sound_notcheck"
+        android:drawable="@drawable/ic_sound_mute"
         />
 
 </selector>

@@ -9,7 +9,7 @@
 
     <TextView
         android:layout_marginTop="40dp"
-        android:id="@+id/textView2"
+        android:id="@+id/tvNameCall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Holy Monster"
@@ -29,7 +29,7 @@
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        app:layout_constraintTop_toBottomOf="@+id/tvNameCall"
         app:shapeAppearanceOverlay="@style/circle"
         app:srcCompat="@drawable/img" />
 

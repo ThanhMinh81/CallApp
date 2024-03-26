@@ -23,6 +23,7 @@ import com.example.Adapter.SuggestAdapter;
 import com.example.DAO.MessageDao;
 import com.example.Interface.IClickSuggest;
 import com.example.Model.ChatMessage;
+import com.example.Model.User;
 import com.example.Model.UserWithChat;
 import com.example.RoomDatabase.MessageDatabase;
 import com.example.myappcall.R;
@@ -44,26 +45,25 @@ public class MessagerActivity extends AppCompatActivity {
     ArrayList<ChatMessage> messageList;
     SuggestAdapter suggestAdapter;
     ArrayList<String> suggestList;
-
     IClickSuggest iClickSuggest;
     LinearLayout layoutTyping;
     private MediaPlayer mediaSend;
     private MediaPlayer mediaReceive;
 
     private Handler mHandler = new Handler(Looper.getMainLooper());
-    private Handler handler = new Handler();
 
     Typewriter typewriter;
 
     TextView tvTyping;
 
-    ImageView nav_back;
+    ImageView nav_back, imgCallMic, imgVideoCall;
 
     TextView tvNamePerson;
 
     ShapeableImageView imgAvatar;
 
     UserWithChat userWithChat;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,8 +76,8 @@ public class MessagerActivity extends AppCompatActivity {
         userWithChat = getIntent().getExtras().getParcelable("Object");
         tvNamePerson = findViewById(R.id.tvName);
         imgAvatar = this.<ShapeableImageView>findViewById(R.id.circleAvatar);
-        tvNamePerson.setText(userWithChat.getUser().getPersonName());
-
+        imgCallMic = findViewById(R.id.imgCallMic);
+        imgVideoCall = findViewById(R.id.imgVideoCall);
 
         layoutTyping = this.<LinearLayout>findViewById(R.id.layoutTyping);
         tvTyping = this.<TextView>findViewById(R.id.tvCuoi);
@@ -85,53 +85,32 @@ public class MessagerActivity extends AppCompatActivity {
         tvTyping.setVisibility(View.GONE);
         nav_back = this.<ImageView>findViewById(R.id.nav_back);
 
-        nav_back.setOnClickListener(view -> {
-            saveListMessage();
-            userWithChat.setChatMessages(messageList);
-            Intent intent = new Intent();
+        String s = userWithChat.getUser().getPersonAvt();
+        int resourceId = getResources().getIdentifier(s, "drawable", getPackageName());
+        imgAvatar.setImageResource(resourceId);
 
-            intent.putExtra("Object", userWithChat);
-
-            setResult(RESULT_OK, intent);
-            finish();
-        });
+        tvNamePerson.setText(userWithChat.getUser().getPersonName());
 
         mediaSend = MediaPlayer.create(this, R.raw.sound_send);
         mediaReceive = MediaPlayer.create(this, R.raw.sound_receiver);
-
         typewriter = findViewById(R.id.typewriter);
-
         rcvMess = findViewById(R.id.rcvChat);
         rcvSuggest = findViewById(R.id.rcvSugessMess);
         messageList = new ArrayList<>();
         suggestList = new ArrayList<>();
 
-//         Trong Activity hoặc Fragment
-//        Observable.fromCallable(() -> messageDao.getMessagesByUserId("MonsterMan"))
-//                .subscribeOn(Schedulers.io()) // Thực hiện trên luồng IO (nền)
-//                .observeOn(AndroidSchedulers.mainThread()) // Nhận kết quả trên luồng chính (UI Thread)
-//                .subscribe(new Observer<List<ChatMessage>>() {
-//                    @Override
-//                    public void onSubscribe(Disposable d) {
-//                    }
-//
-//                    @Override
-//                    public void onNext(List<ChatMessage> messages) {
-//                        Log.d("fsfasfas33", messages.size() + " ");
-//                        messageList.addAll(messages);
-//                        messageAdapter.notifyDataSetChanged();
-//
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//                    }
-//
-//                    @Override
-//                    public void onComplete() {
-//                        // Không cần thiết
-//                    }
-//                });
+
+        handleEventClick();
+
+
+        // rcv Message
+        initValueRcv();
+        // addValue suggesst message
+        initValueSuggest();
+
+    }
+
+    private void handleEventClick() {
 
         iClickSuggest = new IClickSuggest() {
             @Override
@@ -141,25 +120,29 @@ public class MessagerActivity extends AppCompatActivity {
             }
         };
 
-        initValueRcv();
-        initValueSuggest();
+        imgCallMic.setOnClickListener(v -> {
+            Intent intent = new Intent(this, OptionCallActivity.class);
+            intent.putExtra("checkCallVideo", false);
+            intent.putExtra("Object", userWithChat.getUser());
+            startActivity(intent);
+        });
 
-    }
+        imgVideoCall.setOnClickListener(v -> {
+            Intent intent = new Intent(this, OptionCallActivity.class);
+            intent.putExtra("checkCallVideo", true);
+            intent.putExtra("Object", userWithChat.getUser());
+            startActivity(intent);
+        });
 
+        nav_back.setOnClickListener(view -> {
+            userWithChat.setChatMessages(messageList);
+            Intent intent = new Intent();
 
-    private void saveListMessage() {
-        // Trong Activity hoặc Fragment
-//        Observable.fromCallable(() -> {
-//                     messageDao
-//                    return true; // Trả về true nếu chèn thành công
-//                })
-//                .subscribeOn(Schedulers.io()) // Xử lý trên luồng IO (nền)
-//                .observeOn(Schedulers.io()) // Kết quả trả về trên luồng chính (UI Thread)
-//                .subscribe(result -> {
-//                    messageDao.insertList(messageList);
-//                }, error -> {
-//                    Log.d("fsdfas", "3232");
-//                });
+            intent.putExtra("Object", userWithChat);
+
+            setResult(RESULT_OK, intent);
+            finish();
+        });
 
     }
 
@@ -174,9 +157,7 @@ public class MessagerActivity extends AppCompatActivity {
                 public void run() {
 
                     mediaSend.start();
-                    Toast.makeText(MessagerActivity.this, "ollll", Toast.LENGTH_SHORT).show();
                     ChatMessage chatMessage1 = new ChatMessage();
-//                    chatMessage1.setUserId("MonsterMan");
                     chatMessage1.setUserId(userWithChat.getUser().getId());
                     chatMessage1.setMessageText(textSend);
                     chatMessage1.setChecked(true);
@@ -195,7 +176,6 @@ public class MessagerActivity extends AppCompatActivity {
                             ChatMessage chatMessage1 = new ChatMessage();
                             chatMessage1.setUserId(userWithChat.getUser().getId());
                             chatMessage1.setMessageText(receive);
-//                            chatMessage1.setUserId("MonsterMan");
                             chatMessage1.setChecked(false);
                             messageList.add(chatMessage1);
                             rcvMess.scrollToPosition(messageList.size() - 1);
@@ -280,7 +260,6 @@ public class MessagerActivity extends AppCompatActivity {
     }
 
     private void initValueRcv() {
-
         messageAdapter = new MessageAdapter(messageList, MessagerActivity.this);
         rcvMess.setAdapter(messageAdapter);
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(MessagerActivity.this, LinearLayoutManager.VERTICAL, false);

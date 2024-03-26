@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_camera"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="80dp"
         android:layout_marginTop="20dp"
         android:gravity="center"
         android:orientation="horizontal"
@@ -34,7 +36,7 @@
                 android:id="@+id/cbSetting"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:background="@drawable/image_checkbox"
+                android:background="@drawable/vector"
                 android:backgroundTint="@null"
                 android:button="@null"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -68,81 +70,89 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/img"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+
+
+                <ImageView
+                    android:scaleType="centerCrop"
+                    android:id="@+id/imgPlayVideo"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/ic_hotvideo"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
     <FrameLayout
         android:id="@+id/frame_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
 
     <LinearLayout
-        android:layout_marginBottom="30dp"
-        android:orientation="horizontal"
         android:id="@+id/bottomNavigationView"
         android:layout_width="match_parent"
         android:layout_height="100dp"
+        android:layout_marginBottom="30dp"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
         <RadioGroup
             android:id="@+id/rgGroupNavigation"
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
-              <RadioButton
-                  android:layout_weight="1"
-                  android:id="@+id/rbNavigationCall"
-                  android:layout_width="match_parent"
-                  android:layout_height="match_parent"
-                  android:background="@drawable/checkbox_naviagtion_bg_call"
-                  android:backgroundTint="@null"
-                  android:button="@drawable/checkbox_checked"
-                  android:drawableTop="@drawable/ic_call_navigation"
-                  android:scaleX="1.2"
-                  android:scaleY="1.2"
-                  android:focusable="false"
-                  android:gravity="center"
-                  android:buttonTint="@color/cardview_dark_background"
-                  android:paddingTop="20dp"
-                  android:paddingBottom="20dp"
-                  android:text="Calling"/>
+            <RadioButton
+                android:id="@+id/rbNavigationCall"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/checkbox_naviagtion_bg_call"
+                android:backgroundTint="@null"
+                android:button="@drawable/checkbox_checked"
+                android:buttonTint="@color/cardview_dark_background"
+                android:drawableTop="@drawable/ic_call_navigation"
+                android:focusable="false"
+                android:gravity="center"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp"
+                android:scaleX="1"
+                android:scaleY="1"
+                android:text="Calling"
+                android:textSize="13dp"
+                android:textStyle="bold" />
 
-              <RadioButton
-                  android:layout_weight="1"
-                  android:id="@+id/rbNavigationDirect"
-                  android:layout_width="match_parent"
-                  android:layout_height="match_parent"
-                  android:background="@drawable/checkbox_naviagtion_bg_call"
-                  android:backgroundTint="@null"
-                  android:button="@null"
-                  android:drawableTop="@drawable/ic_direct"
-                  android:scaleX="1.2"
-                  android:scaleY="1.2"
-                  android:focusable="false"
-                  android:gravity="center"
-                  android:paddingTop="20dp"
-                  android:paddingBottom="20dp"
-                  android:text="Direct"/>
+            <RadioButton
+                android:id="@+id/rbNavigationDirect"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/checkbox_naviagtion_bg_call"
+                android:backgroundTint="@null"
+                android:button="@null"
+                android:drawableTop="@drawable/ic_direct"
+                android:focusable="false"
+                android:gravity="center"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp"
+                android:scaleX="1"
+                android:scaleY="1"
+                android:text="Direct"
+                android:textSize="14dp"
+                android:textStyle="bold" />
 
         </RadioGroup>
 
-
-
     </LinearLayout>
 
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

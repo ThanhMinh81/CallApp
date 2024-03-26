@@ -10,7 +10,7 @@
 
     <TextView
         android:layout_marginTop="40dp"
-        android:id="@+id/textView2"
+        android:id="@+id/tvNameCall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Monster Man"
@@ -31,7 +31,7 @@
         android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintTop_toBottomOf="@+id/tvNameCall" />
 
 
     <com.google.android.material.imageview.ShapeableImageView
@@ -59,6 +59,7 @@
         app:layout_constraintTop_toBottomOf="@+id/circle">
 
         <ImageView
+            android:id="@+id/imgEndCall"
             android:padding="10dp"
             android:layout_width="60dp"
             android:layout_height="60dp"

@@ -63,7 +63,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
                 if (part.contains("cuoi")) {
 
                     String cuoi = part.substring(0, part.indexOf("'"));
-                    holder.tvReceive.setText(chatMessage.getMessageText());
                     String nameIconDrawable = cuoi;
 
                     holder.tvReceive.setText(Html.fromHtml(messReceive, new Html.ImageGetter() {
@@ -94,14 +93,17 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
             holder.tvReceive.setBackground(context.getDrawable(R.drawable.bg_item_message_send));
 
         } else {
+
             holder.linearLayout.setGravity(Gravity.LEFT);
             holder.tvReceive.setTextColor(context.getResources().getColor(R.color.black));
             holder.tvReceive.setBackground(context.getDrawable(R.drawable.bg_item_message));
         }
 
         if (position == chatMessages.size() - 1) {
+
             Animation slideFromBottom = AnimationUtils.loadAnimation(holder.itemView.getContext(), R.anim.slide_from_bottom);
             holder.linearLayout.setAnimation(slideFromBottom);
+
         }
 
 

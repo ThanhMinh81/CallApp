@@ -10,16 +10,17 @@
         android:layout_width="match_parent"
         android:layout_height="120dp"
         android:background="@drawable/bg_toolbar_mess"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
+
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
+            android:layout_marginRight="7dp"
             android:id="@+id/nav_back"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_gravity="center"
             android:src="@drawable/ic_back" />
 
@@ -35,8 +36,9 @@
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/circleAvatar"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:scaleType="centerCrop"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:shapeAppearanceOverlay="@style/circle"
@@ -79,22 +81,22 @@
 
 
         <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:id="@+id/imgCallMic"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:layout_gravity="center"
             android:layout_marginLeft="25dp"
             android:layout_marginRight="5dp"
-            android:background="@drawable/bg_ic_call"
             android:padding="10dp"
-            android:src="@drawable/ic_call_down" />
+            android:src="@drawable/ic_call" />
 
         <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:id="@+id/imgVideoCall"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:layout_gravity="center"
-            android:background="@drawable/bg_ic_call"
             android:padding="10dp"
-            android:src="@drawable/ic_camera" />
+            android:src="@drawable/ic_callvideo" />
 
 
     </LinearLayout>
@@ -142,7 +144,7 @@
             android:id="@+id/typewriter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
+            android:textSize="18sp"
             android:textColor="#949699" />
 
 

@@ -34,6 +34,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.Model.User;
 import com.example.myappcall.R;
 
 import java.util.ArrayList;
@@ -59,6 +60,7 @@ public class CallVideoActivity extends AppCompatActivity {
 
     private CameraDevice.StateCallback cameraDeviceStateCallback;
 
+    User user;
 
 
     @Override
@@ -67,6 +69,8 @@ public class CallVideoActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_call_video);
 
+        user = getIntent().getExtras().getParcelable("Object");
+
         pressEndCall = this.<ImageView>findViewById(R.id.imgEndCall);
 
         textureView = this.<TextureView>findViewById(R.id.textureView);
@@ -74,8 +78,12 @@ public class CallVideoActivity extends AppCompatActivity {
         initEventCamera();
 
         VideoView videoView = findViewById(R.id.videoView);
-        String videoPath = "android.resource://" + getPackageName() + "/" + R.raw.video1;
+
+
+        int resID = getResources().getIdentifier(user.getUrlVideo().trim(), "raw", getPackageName());
+        String videoPath = "android.resource://" + getPackageName() + "/" + resID;
         videoView.setVideoURI(Uri.parse(videoPath));
+
 
         videoView.setOnErrorListener((mp, what, extra) -> {
             return false;
@@ -84,20 +92,11 @@ public class CallVideoActivity extends AppCompatActivity {
         videoView.setOnCompletionListener(mp -> {
         });
 
-        // Bắt đầu phát video
-      try {
-          videoView.start();
-      }catch (Exception e)
-      {
-          Log.d("oidfa",e.toString());
-      }
-
+        videoView.start();
 
         pressEndCall.setOnClickListener(v -> {
-
             Intent intent = new Intent(CallVideoActivity.this, MainActivity.class);
             startActivity(intent);
-
         });
 
 
@@ -130,10 +129,6 @@ public class CallVideoActivity extends AppCompatActivity {
             public void onOpened(CameraDevice camera) {
 
                 cameraDevice = camera;
-
-                Toast.makeText(getApplicationContext(), "Camera open", Toast.LENGTH_LONG).show();
-
-                // Hiển thị hình ảnh thu về từ Camera lên màn hình
                 createCameraPreviewSession();
 
             }
@@ -174,18 +169,8 @@ public class CallVideoActivity extends AppCompatActivity {
     private void openCamera() {
         CameraManager cameraManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
         try {
-            // mở kết nối tới Camera của thiết bị
-            // các hành động trả về sẽ dc thực hiện trong "cameraDeviceStateCallback"
-            // tham số thứ 3 của hàm openCamera là 1 "Handler"
-            // nhưng hiện tại ở đây chúng ta chưa cần thiết nên mình để nó là "null"
+
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
                 return;
             }
             cameraManager.openCamera(cameraId, cameraDeviceStateCallback, null);
@@ -215,13 +200,13 @@ public class CallVideoActivity extends AppCompatActivity {
             for (String id : cameraManager.getCameraIdList()) {
                 CameraCharacteristics cameraCharacteristics = cameraManager.getCameraCharacteristics(id);
 
-                // Sử dụng camera trước (LENS_FACING_FRONT)
+                // camera truoc
                 if (cameraCharacteristics.get(CameraCharacteristics.LENS_FACING) == CameraCharacteristics.LENS_FACING_FRONT) {
                     StreamConfigurationMap map = cameraCharacteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
-                    // Lấy kích thước cố định cho preview
+
                     previewSize = getFixedPreviewsSize(map.getOutputSizes(SurfaceTexture.class));
                     cameraId = id;
-                    break; // thoát vòng lặp sau khi tìm thấy camera trước
+                    break;
                 }
             }
         } catch (CameraAccessException e) {
@@ -229,14 +214,12 @@ public class CallVideoActivity extends AppCompatActivity {
         }
     }
 
-    // Lấy kích thước cố định cho preview (ví dụ: 640x480)
     private Size getFixedPreviewsSize(Size[] mapSizes) {
         for (Size option : mapSizes) {
             if (option.getWidth() == 640 && option.getHeight() == 480) {
                 return option;
             }
         }
-        // Nếu không tìm thấy kích thước cố định nào, chỉ đơn giản chọn kích thước đầu tiên trong danh sách
         return mapSizes[0];
     }
 
@@ -283,32 +266,19 @@ public class CallVideoActivity extends AppCompatActivity {
         return mapSize[0];
     }
 
-    // Khởi tạo hàm để hiển thị hình ảnh thu về từ Camera lên TextureView
     private void createCameraPreviewSession() {
         try {
             SurfaceTexture surfaceTexture = textureView.getSurfaceTexture();
             surfaceTexture.setDefaultBufferSize(previewSize.getWidth(), previewSize.getHeight());
             Surface previewSurface = new Surface(surfaceTexture);
 
-            // Khởi tạo CaptureRequestBuilder từ cameraDevice với template truyền vào là
-            // "CameraDevice.TEMPLATE_PREVIEW"
-            // Với template này thì CaptureRequestBuilder chỉ thực hiện View mà thôi
             previewCaptureRequestBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
 
-            // Thêm đích đến cho dữ liệu lấy về từ Camera
-            // Đích đến này phải nằm trong danh sách các đích đến của dữ liệu
-            // được định nghĩa trong cameraDevice.createCaptureSession() "phần định nghĩa này ngay bên dưới"
+
             previewCaptureRequestBuilder.addTarget(previewSurface);
 
-            // Khởi tạo 1 CaptureSession
-            // Arrays.asList(previewSurface) List danh sách các Surface
-            // ( đích đến của hình ảnh thu về từ Camera)
-            // Ở đây đơn giản là chỉ hiển thị hình ảnh thu về từ Camera nên chúng ta chỉ có 1 đối số.
-            // Nếu bạn muốn chụp ảnh hay quay video vvv thì
-            // ta có thể truyền thêm các danh sách đối số vào đây
-            // Vd: Arrays.asList(previewSurface, imageReader)
             cameraDevice.createCaptureSession(Arrays.asList(previewSurface),
-                    // Hàm Callback trả về kết quả khi khởi tạo.
+
                     new CameraCaptureSession.StateCallback() {
                         @Override
                         public void onConfigured(CameraCaptureSession session) {
@@ -316,8 +286,7 @@ public class CallVideoActivity extends AppCompatActivity {
                                 return;
                             }
                             try {
-                                // Khởi tạo CaptureRequest từ CaptureRequestBuilder
-                                // với các thông số đã được thêm ở trên
+
                                 previewCaptureRequest = previewCaptureRequestBuilder.build();
                                 cameraCaptureSession = session;
                                 cameraCaptureSession.setRepeatingRequest(
@@ -335,8 +304,7 @@ public class CallVideoActivity extends AppCompatActivity {
                                     "Create camera session fail", Toast.LENGTH_SHORT).show();
                         }
                     },
-                    // Đối số thứ 3 của hàm là 1 Handler,
-                    // nhưng do hiện tại chúng ta chưa làm gì nhiều nên mình tạm thời để là null
+
                     null);
         } catch (CameraAccessException e) {
             e.printStackTrace();

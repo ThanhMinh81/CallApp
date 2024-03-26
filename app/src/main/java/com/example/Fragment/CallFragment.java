@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.Adapter.CallAdapter;
 import com.example.DAO.MessageDao;
@@ -42,15 +43,17 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class CallFragment extends Fragment {
 
 
-
     MessageDao messageDao;
     CallAdapter callAdapter;
-    ArrayList<User> userArrayList;
+    public static ArrayList<User> userArrayList;
     RecyclerView rcvCallFragment;
     IClickCall iClickCall;
     View view;
     Dialog dialogCall;
     private Dialog diagloCall;
+
+    public CallFragment() {
+    }
 
     public CallFragment(MessageDao messageDao) {
         this.messageDao = messageDao;
@@ -66,15 +69,12 @@ public class CallFragment extends Fragment {
         userArrayList = new ArrayList<>();
 
 
-
         getData();
-
-
 
         iClickCall = new IClickCall() {
             @Override
             public void callPerson(User user) {
-                showDialogCall2(user);
+                showDialogCall(user);
             }
         };
 
@@ -106,10 +106,9 @@ public class CallFragment extends Fragment {
 //        personCalls.add(new User("E", "img_1.png", "video1"));
 
 
-
         Observable.fromCallable(() -> messageDao.getListPerson())
-                .subscribeOn(Schedulers.io()) // Thực hiện trên luồng IO (nền)
-                .observeOn(AndroidSchedulers.mainThread()) // Nhận kết quả trên luồng chính (UI Thread)
+                .subscribeOn(Schedulers.io()) // thuc hien tren bakcgorund thread
+                .observeOn(AndroidSchedulers.mainThread())  // get result tren UI thread
                 .subscribe(new Observer<List<User>>() {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {
@@ -120,7 +119,7 @@ public class CallFragment extends Fragment {
                     public void onNext(@NonNull List<User> users) {
                         userArrayList.addAll(users);
                         callAdapter.notifyDataSetChanged();
-                                Log.d("fdff", users.size() + " ");
+                        Log.d("faasdfewr", users.size() + " ");
                     }
 
                     @Override
@@ -137,15 +136,19 @@ public class CallFragment extends Fragment {
 
     }
 
-    private void showDialogCall2(User user) {
-        Log.d("dfiah",user.getPersonAvt().toString());
+    private void showDialogCall(User user) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext(), R.style.WrapContentDialog);
         LayoutInflater layoutInflater = LayoutInflater.from(this.getContext());
         final View dialogView = layoutInflater.inflate(R.layout.layout_dialog_call, null);
         ImageView imgAvatar = dialogView.findViewById(R.id.imgAvatar);
-         String s =   user.getPersonAvt();
-           int resourceId = getResources().getIdentifier(s, "drawable", getContext().getPackageName());
-            imgAvatar.setImageResource(resourceId);
+        TextView tvName = dialogView.findViewById(R.id.tvName);
+        tvName.setText(user.getPersonName());
+
+        // xet resoure voi kieu string cho img
+        String s = user.getPersonAvt();
+        int resourceId = getResources().getIdentifier(s, "drawable", getContext().getPackageName());
+        imgAvatar.setImageResource(resourceId);
+
         builder.setView(dialogView);
         AlertDialog dialog = builder.create();
         Window window = dialog.getWindow();
@@ -156,28 +159,32 @@ public class CallFragment extends Fragment {
         params.y = 16;
         window.setAttributes(params);
         window.setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
+
         // cai nay cho no mau trong suot de co the thay duoc icon close
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 //        window.setGravity(Gravity.CENTER);
         dialog.show();
 
-
-
         ImageView closeCall = dialog.findViewById(R.id.img_closeCall);
+
         ImageView videoCall = dialog.findViewById(R.id.imgVideoCall);
+
         ImageView microCall = dialog.findViewById(R.id.imgCallMicro);
 
         //videocall
         videoCall.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), OptionCallActivity.class);
-            intent.putExtra("checkCallVideo",true);
+            intent.putExtra("checkCallVideo", true);
+            intent.putExtra("Object", user);
             startActivity(intent);
         });
 
 
         microCall.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), OptionCallActivity.class);
-            intent.putExtra("checkCallVideo",false);
+            intent.putExtra("checkCallVideo", false);
+            intent.putExtra("Object", user);
+
             startActivity(intent);
         });
 
@@ -185,7 +192,6 @@ public class CallFragment extends Fragment {
         closeCall.setOnClickListener(v -> {
             dialog.dismiss();
         });
-
 
 
     }

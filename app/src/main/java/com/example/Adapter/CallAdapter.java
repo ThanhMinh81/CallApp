@@ -31,6 +31,7 @@ public class CallAdapter extends RecyclerView.Adapter<CallAdapter.ViewHolder> {
         this.iClickCall = iClickCall;
     }
 
+
     @NonNull
     @Override
     public CallAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -47,12 +48,10 @@ public class CallAdapter extends RecyclerView.Adapter<CallAdapter.ViewHolder> {
 
         User user = users.get(position);
 
-        String s =   user.getPersonAvt();
+        String s = user.getPersonAvt();
         int resourceId = context.getResources().getIdentifier(s, "drawable", context.getPackageName());
         holder.imgAvtar.setImageResource(resourceId);
-
-//        Glide.with(context).load(getImage("img_1")).into(holder.imgAvtar);
-
+        // Glide.with(context).load(getImage("img_1")).into(holder.imgAvtar);
         holder.imgAvtar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,10 +81,7 @@ public class CallAdapter extends RecyclerView.Adapter<CallAdapter.ViewHolder> {
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-
             imgAvtar = itemView.findViewById(R.id.imgAvatar);
-
-
         }
     }
 }

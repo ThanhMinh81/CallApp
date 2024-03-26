@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -18,7 +19,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.Model.User;
 import com.example.myappcall.R;
+import com.google.android.material.imageview.ShapeableImageView;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -31,13 +34,17 @@ public class CallMicActivity extends AppCompatActivity {
     Double time = 0.0;
     boolean timerStarted = false;
 
-    TextView tvTime;
+    TextView tvTime, tvName;
 
     private MediaPlayer mediaPlayer;
 
     ImageView pressEndCall;
 
     TextView tvEnded, pressTapClose;
+
+    ShapeableImageView shapeableImageView;
+
+    User user;
 
 
     @SuppressLint("WrongViewCast")
@@ -47,35 +54,41 @@ public class CallMicActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_call_mic);
 
+        user = getIntent().getExtras().getParcelable("Object");
         tvTime = this.<TextView>findViewById(R.id.tvTimeCall);
         pressEndCall = this.<ImageView>findViewById(R.id.imgEndCallMic);
+        tvName = findViewById(R.id.tvNameCall);
+        tvName.setText(user.getPersonName());
+        shapeableImageView = findViewById(R.id.circle);
+        String s = user.getPersonAvt();
+        int resourceId = getResources().getIdentifier(s, "drawable", this.getPackageName());
+        shapeableImageView.setImageResource(resourceId);
 
         tvEnded = this.<TextView>findViewById(R.id.callMicEnded);
         pressTapClose = this.<TextView>findViewById(R.id.pressTapToClose);
-
         tvEnded.setVisibility(View.GONE);
         pressTapClose.setVisibility(View.GONE);
-
 
         timer = new Timer();
 
         mediaPlayer = new MediaPlayer();
         try {
-            // Đường dẫn đến tệp video MP4
-            Uri videoUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.video1);
+            Log.d("4343434343", user.getUrlVideo());
 
-            // Thiết lập nguồn dữ liệu cho MediaPlayer
-            mediaPlayer.setDataSource(getApplicationContext(), videoUri);
+            int resID = getResources().getIdentifier(user.getUrlVideo().trim(), "raw", getPackageName());
+            String fileMp3 = "android.resource://" + getPackageName() + "/" + resID;
 
-            // Chuẩn bị MediaPlayer
+            mediaPlayer.setDataSource(getApplicationContext(), Uri.parse(fileMp3));
+
+            // chuanbi
             mediaPlayer.prepare();
 
-            // Phát âm thanh từ video
+            // start
             mediaPlayer.start();
             startTimer();
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(getApplicationContext(), "Failed to play audio from video", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "looiio roi" + e.toString(), Toast.LENGTH_SHORT).show();
         }
 
         pressEndCall.setOnClickListener(v -> {
@@ -92,7 +105,6 @@ public class CallMicActivity extends AppCompatActivity {
         mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
-
                 tvTime.setVisibility(View.GONE);
                 pressEndCall.setVisibility(View.GONE);
 
@@ -102,13 +114,9 @@ public class CallMicActivity extends AppCompatActivity {
                 startAnimation(pressTapClose);
 
                 pressTapClose.setOnClickListener(v -> {
-
                     Intent intent = new Intent(CallMicActivity.this, MainActivity.class);
-
                     startActivity(intent);
-
                 });
-
             }
         });
 
@@ -121,10 +129,8 @@ public class CallMicActivity extends AppCompatActivity {
             startTimer();
 
         } else {
-
             timerStarted = false;
             timerTask.cancel();
-
         }
     }
 
@@ -148,7 +154,6 @@ public class CallMicActivity extends AppCompatActivity {
     private String getTimerText() {
 
         int rounded = (int) Math.round(time);
-
         int seconds = ((rounded % 86400) % 3600) % 60;
         int minutes = ((rounded % 86400) % 3600) / 60;
         int hours = ((rounded % 86400) / 3600);

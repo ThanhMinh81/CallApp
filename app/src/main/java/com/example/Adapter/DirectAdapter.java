@@ -2,6 +2,7 @@ package com.example.Adapter;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.Interface.IClickMess;
 import com.example.Model.UserWithChat;
 import com.example.myappcall.R;
+import com.google.android.material.imageview.ShapeableImageView;
 
 import java.util.ArrayList;
 
@@ -49,11 +51,53 @@ public class DirectAdapter extends RecyclerView.Adapter<DirectAdapter.ViewHolder
         UserWithChat userWithChat = userWithChats.get(position);
 
 
+        // xet resoure voi kieu string cho img
+        String s = userWithChat.getUser().getPersonAvt();
+        int resourceId = context.getResources().getIdentifier(s, "drawable", context.getPackageName());
+        holder.shapeableImageView.setImageResource(resourceId);
+
+
         holder.tvName.setText(userWithChat.getUser().getPersonName());
         if (userWithChat.getChatMessages().size() > 0) {
+
             int totalList = userWithChat.getChatMessages().size() - 1;
 
-            holder.tvMess.setText(userWithChat.getChatMessages().get(totalList).getMessageText());
+                String message =  userWithChat.getChatMessages().get(totalList).getMessageText();
+//                Log.d("erw7r0wq5234",message);
+
+            if (message.contains("img")) {
+
+                String[] parts = message.split("<img src='");
+                Log.d("3424242","fsadf");
+
+                for (String part : parts) {
+
+                    if (part.contains("cuoi")) {
+
+                        String cuoi = part.substring(0, part.indexOf("'"));
+
+                        String nameIconDrawable = cuoi;
+                        holder.tvMess.setText(Html.fromHtml(message, new Html.ImageGetter() {
+                            @Override
+                            public Drawable getDrawable(String source) {
+                                int resourceId = context.getResources().getIdentifier(nameIconDrawable, "drawable", context.getPackageName());
+                                Log.d("78934579", resourceId + " ");
+                                Drawable iconDrawable = context.getResources().getDrawable(resourceId);
+                                int iconSize = (int) (holder.tvMess.getTextSize());
+                                iconDrawable.setBounds(0, 0, iconSize, iconSize);
+                                return iconDrawable;
+                            }
+                        }, null));
+
+
+                    }
+                }
+
+            } else {
+                holder.tvMess.setText(userWithChat.getChatMessages().get(totalList).getMessageText());
+
+            }
+
 
         } else {
             holder.tvMess.setText("New messager");
@@ -77,12 +121,15 @@ public class DirectAdapter extends RecyclerView.Adapter<DirectAdapter.ViewHolder
         TextView tvName, tvMess;
         ConstraintLayout constraintLayout;
 
+        ShapeableImageView shapeableImageView;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             tvName = itemView.findViewById(R.id.tvName);
             tvMess = itemView.findViewById(R.id.tvMess);
             constraintLayout = itemView.findViewById(R.id.layoutMessager);
+            shapeableImageView = itemView.findViewById(R.id.circle);
 
         }
     }

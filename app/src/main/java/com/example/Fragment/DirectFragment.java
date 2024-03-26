@@ -1,6 +1,9 @@
 package com.example.Fragment;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -8,10 +11,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.example.Adapter.DirectAdapter;
 import com.example.DAO.MessageDao;
@@ -45,6 +51,14 @@ public class DirectFragment extends Fragment {
     View view;
 
     IClickMess iClickMess ;
+    EditText edSearchView ;
+
+    ArrayList<UserWithChat> searchList ;
+
+    SharedPreferences sharedpreferences;
+
+    public DirectFragment() {
+    }
 
     public DirectFragment(MessageDao messageDao) {
         this.messageDao = messageDao;
@@ -56,15 +70,20 @@ public class DirectFragment extends Fragment {
 
         view = inflater.inflate(R.layout.fragment_direct, container, false);
         rcvDirect = view.findViewById(R.id.rcvDirect);
+        edSearchView = view.findViewById(R.id.edSearchView);
 
          chatArrayList = new ArrayList<>();
+         searchList = new ArrayList<>();
+
+
+        sharedpreferences = getContext().getSharedPreferences("mode_setting", Context.MODE_PRIVATE);
+        boolean ac  = sharedpreferences.getBoolean("bababa",false) ;
+        Log.d("3094702470",ac + " ");
 
         iClickMess = userWithChat -> {
             Intent intent = new Intent(getActivity(), MessagerActivity.class);
             intent.putExtra("Object",userWithChat);
             startActivityForResult(intent,10);
-
-
         };
 
         directAdapter = new DirectAdapter(chatArrayList,iClickMess, getContext());
@@ -73,12 +92,50 @@ public class DirectFragment extends Fragment {
         rcvDirect.setAdapter(directAdapter);
         rcvDirect.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
 
-        getData();
+        searchMessage();
 
+        getData();
 
         return view;
     }
 
+    private void searchMessage() {
+        edSearchView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                 if(s.length() == 0)
+                 {
+                     chatArrayList.clear();
+                   chatArrayList.addAll(searchList);
+                   directAdapter.notifyDataSetChanged();
+                 }
+                 if(s.length() > 0) {
+                     chatArrayList.clear();
+                     directAdapter.notifyDataSetChanged();
+                     for (UserWithChat  userWithChat: searchList) {
+                         if(userWithChat.getUser().getPersonName().contains(s.toString()) ||
+                                 userWithChat.getUser().getPersonName().contains(s.toString().toLowerCase()) ||
+                                 userWithChat.getUser().getPersonName().contains(s.toString().toUpperCase()))
+                         {
+                             chatArrayList.add(userWithChat);
+                             directAdapter.notifyDataSetChanged();
+                         }
+                     }
+                 }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
+    }
+
+    @SuppressLint("CheckResult")
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -87,9 +144,7 @@ public class DirectFragment extends Fragment {
         {
             if(data !=  null)
             {
-
                 UserWithChat user = (UserWithChat) data.getParcelableExtra("Object");
-
                 fetchDataAndUpdateDatabase(user)
                         .subscribe(() -> {
                             Log.d("fsf3", "Them data thanh cong");
@@ -97,7 +152,6 @@ public class DirectFragment extends Fragment {
                         }, error -> {
                             Log.e("4523", "Eloioi: " + error.getMessage());
                         });
-
             }
         }
 
@@ -106,28 +160,27 @@ public class DirectFragment extends Fragment {
     private void getData() {
 
         Observable.fromCallable(() -> messageDao.getJoinChatPersons())
-                .subscribeOn(Schedulers.io()) // Thực hiện trên luồng IO (nền)
-                .observeOn(AndroidSchedulers.mainThread()) // Nhận kết quả trên luồng chính (UI Thread)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<List<UserWithChat>>() {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {}
                     @Override
                     public void onNext(@NonNull List<UserWithChat> userWithChats) {
                         chatArrayList.clear();
+                        searchList.clear();
+                        searchList.addAll(userWithChats);
                         chatArrayList.addAll(userWithChats);
                         directAdapter.notifyDataSetChanged();
-                        Log.d("fsfafa",userWithChats.get(1).getChatMessages().size() + " ");
                     }
 
                     @Override
                     public void onError(@NonNull Throwable e) {
-
+                        Log.d("394u922",e.toString()  );
                     }
 
                     @Override
-                    public void onComplete() {
-
-                    }
+                    public void onComplete() {}
                 });
     }
 
@@ -139,8 +192,6 @@ public class DirectFragment extends Fragment {
                 }).subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io());
     }
-
-
 
 
 

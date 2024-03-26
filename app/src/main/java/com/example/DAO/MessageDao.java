@@ -38,11 +38,11 @@ public interface MessageDao {
 
 
     //them
-    // Xóa tất cả các tin nhắn theo userId
+    // xoa tin nhan theo id user
     @Query("DELETE FROM messages WHERE userId = :userId")
     void deleteMessagesByUserId(int userId);
 
-    // insert lai list moi
+    // xoa xong thi them danh sach tin nhan moi lai
     @Insert
     void insertList(List<ChatMessage> messages);
 
@@ -50,8 +50,8 @@ public interface MessageDao {
 //    @Query("UPDATE messages SET userId = :end_address WHERE userId = :id")
 //    int updateTour(List<ChatMessage> chatMessages , int id);
 
-    @Query("UPDATE messages SET messageText = :strings WHERE id = :idUser")
-    int updateTour(List<String> strings ,  int idUser);
+//    @Query("UPDATE messages SET messageText = :strings WHERE id = :idUser")
+//    int updateTour(List<String> strings ,  int idUser);
 
 
 
