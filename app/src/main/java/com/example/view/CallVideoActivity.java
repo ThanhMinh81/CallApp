@@ -17,6 +17,7 @@ import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Size;
 import android.view.Surface;
 import android.view.TextureView;
@@ -58,6 +59,8 @@ public class CallVideoActivity extends AppCompatActivity {
 
     private CameraDevice.StateCallback cameraDeviceStateCallback;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,7 +85,12 @@ public class CallVideoActivity extends AppCompatActivity {
         });
 
         // Bắt đầu phát video
-        videoView.start();
+      try {
+          videoView.start();
+      }catch (Exception e)
+      {
+          Log.d("oidfa",e.toString());
+      }
 
 
         pressEndCall.setOnClickListener(v -> {

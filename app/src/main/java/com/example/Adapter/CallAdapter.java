@@ -10,24 +10,23 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.IClickCall;
-import com.example.Model.PersonCall;
+import com.example.Interface.IClickCall;
+import com.example.Model.User;
 import com.example.myappcall.R;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class CallAdapter extends RecyclerView.Adapter<CallAdapter.ViewHolder> {
 
-    ArrayList<PersonCall> personCalls;
+    ArrayList<User> users;
 
     Context context;
 
     IClickCall iClickCall;
 
 
-    public CallAdapter(ArrayList<PersonCall> personCalls, Context context, IClickCall iClickCall) {
-        this.personCalls = personCalls;
+    public CallAdapter(ArrayList<User> users, Context context, IClickCall iClickCall) {
+        this.users = users;
         this.context = context;
         this.iClickCall = iClickCall;
     }
@@ -37,13 +36,8 @@ public class CallAdapter extends RecyclerView.Adapter<CallAdapter.ViewHolder> {
     public CallAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-
-
         View view;
-
         view = inflater.inflate(R.layout.item_layout_call, parent, false);
-
-
         return new ViewHolder(view);
 
     }
@@ -51,15 +45,18 @@ public class CallAdapter extends RecyclerView.Adapter<CallAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull CallAdapter.ViewHolder holder, int position) {
 
-        PersonCall personCall = personCalls.get(position);
+        User user = users.get(position);
 
+        String s =   user.getPersonAvt();
+        int resourceId = context.getResources().getIdentifier(s, "drawable", context.getPackageName());
+        holder.imgAvtar.setImageResource(resourceId);
 
-        Glide.with(context).load(getImage("img_1")).into(holder.imgAvtar);
+//        Glide.with(context).load(getImage("img_1")).into(holder.imgAvtar);
 
         holder.imgAvtar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                iClickCall.callPerson(personCall);
+                iClickCall.callPerson(user);
             }
         });
 
@@ -76,7 +73,7 @@ public class CallAdapter extends RecyclerView.Adapter<CallAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return personCalls.size();
+        return users.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

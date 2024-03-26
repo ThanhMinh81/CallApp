@@ -27,6 +27,7 @@
                 app:cardCornerRadius="20dp"
                 android:layout_height="250dp">
                 <ImageView
+                    android:id="@+id/imgAvatar"
                     android:scaleType="center"
                     android:src="@drawable/img"
                     android:layout_width="250dp"

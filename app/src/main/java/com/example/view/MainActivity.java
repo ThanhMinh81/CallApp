@@ -1,5 +1,7 @@
 package com.example.view;
 
+import static com.example.RoomDatabase.MessageDatabase.roomCallback;
+
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
@@ -9,6 +11,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -20,9 +24,12 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.room.Room;
 
+import com.example.DAO.MessageDao;
 import com.example.Fragment.CallFragment;
 import com.example.Fragment.DirectFragment;
+import com.example.RoomDatabase.MessageDatabase;
 import com.example.myappcall.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
@@ -30,15 +37,13 @@ import com.google.android.material.navigation.NavigationBarView;
 public class MainActivity extends AppCompatActivity {
 
     CheckBox cbSetting, cbSound, cbRing;
-
-    CheckBox cbNavigationCall, cbNavigationDirect;
-
+    RadioGroup radioGroup;
+    MessageDatabase messageDatabase;
+    MessageDao messageDao;
+    RadioButton rbNavigationCall, rbNavigationDirect;
     ConstraintLayout linearLayout;
-//    BottomNavigationView bottomNavigationView;
-
     NavigationBarView.OnItemSelectedListener onItemSelectedListener;
 
-//    BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,10 +55,34 @@ public class MainActivity extends AppCompatActivity {
         cbSound = findViewById(R.id.cbSound);
         cbRing = findViewById(R.id.cbRing);
 
-        cbNavigationCall = this.<CheckBox>findViewById(R.id.cbNavigationCall);
-        cbNavigationDirect = this.<CheckBox>findViewById(R.id.cbNavigationDirect);
+        rbNavigationCall = this.<RadioButton>findViewById(R.id.rbNavigationCall);
+        rbNavigationDirect = this.<RadioButton>findViewById(R.id.rbNavigationDirect);
+        radioGroup = this.<RadioGroup>findViewById(R.id.rgGroupNavigation);
 
-        cbNavigationCall.setChecked(true);
+        rbNavigationCall.setChecked(true);
+        rbNavigationDirect.setChecked(false);
+        colorCheckbox(rbNavigationCall);
+        colorCheckbox(rbNavigationDirect);
+
+        messageDatabase = Room.databaseBuilder(this,
+                        MessageDatabase.class, "message-database")
+                .addCallback(roomCallback) // Thêm callback vào đây
+                .build();
+
+
+        messageDao = messageDatabase.messageDao();
+
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                if (i == R.id.rbNavigationCall) {
+                    replaceFragment(new CallFragment(messageDao));
+                    Log.d("2345432", rbNavigationCall.isChecked() + " ");
+                } else {
+                    replaceFragment(new DirectFragment(messageDao));
+                }
+            }
+        });
 
 
         linearLayout = this.<ConstraintLayout>findViewById(R.id.layoutCheckbox);
@@ -61,119 +90,7 @@ public class MainActivity extends AppCompatActivity {
         cbSound.setVisibility(View.GONE);
         cbRing.setVisibility(View.GONE);
 
-//        bottomNavigationView = this.<BottomNavigationView>findViewById(R.id.bottomNavigationView);
-
-//        bottomNavigationView.setItemIconTintList(null);
-
-        replaceFragment(new CallFragment());
-        cbNavigationCall.setChecked(true);
-        colorCheckbox(cbNavigationCall);
-        cbNavigationDirect.setChecked(false);
-        colorCheckbox(cbNavigationDirect);
-
-
-//        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-//            @Override
-//            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-//                int id = menuItem.getItemId();
-//
-//                if (id == R.id.nav_calling) {
-//                    replaceFragment(new CallFragment());
-//                } else if (id == R.id.nav_direct) {
-//                    replaceFragment(new DirectFragment());
-//                }
-//                return true;
-//            }
-//        });
-
-//
-//        bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-//          mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
-//            @Override
-//            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//
-//                int id = item.getItemId();
-//
-//                if(id == R.id.nav_calling)
-//                {
-//                    bottomNavigationView.getMenu().getItem(R.id.nav_calling).setChecked(true);
-//                    replaceFragment(new CallFragment());
-//                }else if(id == R.id.nav_direct) {
-//                    bottomNavigationView.getMenu().getItem(R.id.nav_direct).setChecked(true);
-//                    replaceFragment(new DirectFragment());
-//                }
-//                return false;
-//            }
-//        };
-
-
-        // check : textView  , Draable : white
-        // uncheck : itemBackgroundIcon
-
-        cbNavigationCall.setOnClickListener(v -> {
-            CheckBox cbCall = (CheckBox) v;
-            colorCheckbox(cbCall);
-            if(cbCall.isChecked())
-            {
-                cbNavigationDirect.setEnabled(true);
-                cbNavigationDirect.setEnabled(true);
-                cbNavigationDirect.setChecked(false);
-                colorCheckbox(cbNavigationDirect);
-            }else {
-                cbNavigationCall.setEnabled(false);
-//                cbNavigationDirect.setChecked(true);
-//                colorCheckbox(cbNavigationDirect);
-            }
-        });
-
-        cbNavigationDirect.setOnClickListener(v -> {
-            CheckBox cbDirect = (CheckBox) v;
-            colorCheckbox(cbDirect);
-            Log.d("Rưeqrqwer",cbDirect.isChecked() + " ");
-            if(cbDirect.isChecked())
-            {
-                cbNavigationCall.setEnabled(true);
-
-                cbNavigationCall.setChecked(false);
-                colorCheckbox(cbNavigationCall);
-            }else {
-                cbNavigationDirect.setEnabled(false);
-//                cbNavigationCall.setChecked(true);
-//                colorCheckbox(cbNavigationCall);
-
-            }
-
-
-        });
-
-//        cbNavigationCall.setOnCheckedChangeListener((buttonView, isChecked) -> {
-//
-//            CheckBox checkBox = (CheckBox) buttonView;
-//
-//             if(checkBox.getId() == R.id.cbNavigationCall)
-//             {
-//                 if(checkBox.isChecked())
-//                 {
-//                     cbNavigationDirect.setChecked(false);
-//                     colorCheckbox(cbNavigationDirect);
-//                 }else {
-//                     checkBox.setChecked(true);
-//                     colorCheckbox(checkBox);
-//                 }
-//             }else if(checkBox.getId() ==  R.id.cbNavigationDirect) {
-//                 if(checkBox.isChecked())
-//                 {
-//                     cbNavigationCall.setChecked(false);
-//                     colorCheckbox(cbNavigationCall);
-//                 }else {
-//                     checkBox.setChecked(true);
-//                     colorCheckbox(checkBox);
-//                 }
-//             }
-//
-//
-//        });
-
+        replaceFragment(new CallFragment(messageDao));
 
         cbSetting.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -218,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void colorCheckbox(CheckBox checkBox) {
+    private void colorCheckbox(RadioButton checkBox) {
         if (checkBox.isChecked()) {
 
             checkBox.setTextColor(getResources().getColor(R.color.white));
