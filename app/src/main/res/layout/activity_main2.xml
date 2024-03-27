@@ -5,15 +5,16 @@
     android:id="@+id/activity_camera"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="8dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="70dp"
+        android:layout_marginLeft="10dp"
         android:layout_marginTop="20dp"
+        android:layout_marginRight="10dp"
         android:gravity="center"
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,7 +23,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layoutCheckbox"
             android:layout_width="wrap_content"
-            android:layout_height="70dp"
+            android:layout_height="60dp"
             android:orientation="horizontal"
             android:paddingLeft="10dp"
             android:paddingTop="5dp"
@@ -34,8 +35,8 @@
 
             <CheckBox
                 android:id="@+id/cbSetting"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="47dp"
+                android:layout_height="47dp"
                 android:background="@drawable/vector"
                 android:backgroundTint="@null"
                 android:button="@null"
@@ -45,8 +46,8 @@
 
             <CheckBox
                 android:id="@+id/cbSound"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="47dp"
+                android:layout_height="47dp"
                 android:layout_marginLeft="5dp"
                 android:background="@drawable/cb_sound"
                 android:button="@null"
@@ -54,11 +55,10 @@
                 app:layout_constraintStart_toEndOf="@+id/cbSetting"
                 app:layout_constraintTop_toTopOf="parent" />
 
-
             <CheckBox
                 android:id="@+id/cbRing"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="47dp"
+                android:layout_height="47dp"
                 android:layout_marginLeft="10dp"
                 android:background="@drawable/cb_ring"
                 android:button="@null"
@@ -66,16 +66,28 @@
                 app:layout_constraintStart_toEndOf="@+id/cbSound"
                 app:layout_constraintTop_toTopOf="parent" />
 
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
+        <FrameLayout
+            android:layout_width="70dp"
+            android:layout_height="60dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="70dp"
+                app:cardCornerRadius="18dp"
+                android:layout_height="60dp">
 
                 <ImageView
+                    android:paddingLeft="1dp"
                     android:scaleType="centerCrop"
                     android:id="@+id/imgPlayVideo"
-                    android:layout_width="60dp"
+                    android:layout_width="70dp"
                     android:layout_height="60dp"
                     android:src="@drawable/ic_hotvideo"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -83,7 +95,18 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
 
+                <LinearLayout
+                    android:background="@drawable/bg_hotvideo"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
 
+            </androidx.cardview.widget.CardView>
+
+
+
+        </FrameLayout>
+
+        
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

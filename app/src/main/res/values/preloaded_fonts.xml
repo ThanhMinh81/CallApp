@@ -3,7 +3,9 @@
     <array name="preloaded_fonts" translatable="false">
         <item>@font/archivo_black</item>
         <item>@font/comfortaa_light</item>
+        <item>@font/cousine_italic</item>
         <item>@font/overlock_bold</item>
+        <item>@font/tenor_sans</item>
         <item>@font/varta_light</item>
     </array>
 </resources>

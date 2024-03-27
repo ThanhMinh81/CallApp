@@ -28,7 +28,7 @@ public class PlayVideoActivity extends AppCompatActivity {
 
     private List<String> videoList = new ArrayList<>();
 
-    int totalVideo , currentVideo;
+    int totalVideo, currentVideo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,17 +120,18 @@ public class PlayVideoActivity extends AppCompatActivity {
 
         // value for listvideo
         for (User user : CallFragment.userArrayList) {
-            int resID = getResources().getIdentifier(user.getUrlVideo().trim(), "raw", getPackageName());
-            String videoPath = "android.resource://" + getPackageName() + "/" + resID;
-            videoList.add(videoPath);
+//            int resID = getResources().getIdentifier(user.getUrlVideo().trim(), "raw", getPackageName());
+//            String videoPath = "android.resource://" + getPackageName() + "/" + resID;
+            videoList.add(user.getUrlVideo());
         }
 
         totalVideo = videoList.size();
         currentVideo = 0;
 
-        String videoPath = "android.resource://" + getPackageName() + "/" + R.raw.video1;
+//        String videoPath = "android.resource://" + getPackageName() + "/" + R.raw.video1;
 
-        videoViewPlay.setVideoURI(Uri.parse(videoPath));
+//        videoViewPlay.setVideoURI(Uri.parse(videoPath));
+        videoViewPlay.setVideoPath(videoList.get(0));
 
         videoViewPlay.start();
 
@@ -145,15 +146,14 @@ public class PlayVideoActivity extends AppCompatActivity {
         if (requestCode == 10) {
             if (data != null) {
                 User user = data.getParcelableExtra("Object");
-                int resID = getResources().getIdentifier(user.getUrlVideo().trim(), "raw", getPackageName());
-                String videoPath = "android.resource://" + getPackageName() + "/" + resID;
+
                 for (int i = 0; i < videoList.size(); i++) {
-                    if (videoList.get(i).contains(String.valueOf(resID))) {
+                    if (videoList.get(i).contains(user.getUrlVideo())) {
                         currentVideo = i;
                         Log.d("23045235", currentVideo + " ");
                     }
                 }
-                videoViewPlay.setVideoURI(Uri.parse(videoPath));
+                videoViewPlay.setVideoPath(user.getUrlVideo());
                 videoViewPlay.start();
             }
         }

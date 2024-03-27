@@ -19,6 +19,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.bumptech.glide.Glide;
 import com.example.Model.User;
 import com.example.myappcall.R;
 import com.google.android.material.imageview.ShapeableImageView;
@@ -46,7 +47,6 @@ public class CallMicActivity extends AppCompatActivity {
 
     User user;
 
-
     @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,9 +60,8 @@ public class CallMicActivity extends AppCompatActivity {
         tvName = findViewById(R.id.tvNameCall);
         tvName.setText(user.getPersonName());
         shapeableImageView = findViewById(R.id.circle);
-        String s = user.getPersonAvt();
-        int resourceId = getResources().getIdentifier(s, "drawable", this.getPackageName());
-        shapeableImageView.setImageResource(resourceId);
+
+        Glide.with(this).load(user.getPersonAvt()).into(shapeableImageView);
 
         tvEnded = this.<TextView>findViewById(R.id.callMicEnded);
         pressTapClose = this.<TextView>findViewById(R.id.pressTapToClose);
@@ -73,12 +72,9 @@ public class CallMicActivity extends AppCompatActivity {
 
         mediaPlayer = new MediaPlayer();
         try {
-            Log.d("4343434343", user.getUrlVideo());
 
-            int resID = getResources().getIdentifier(user.getUrlVideo().trim(), "raw", getPackageName());
-            String fileMp3 = "android.resource://" + getPackageName() + "/" + resID;
 
-            mediaPlayer.setDataSource(getApplicationContext(), Uri.parse(fileMp3));
+            mediaPlayer.setDataSource(user.getUrlVideo());
 
             // chuanbi
             mediaPlayer.prepare();
@@ -92,13 +88,9 @@ public class CallMicActivity extends AppCompatActivity {
         }
 
         pressEndCall.setOnClickListener(v -> {
-
             mediaPlayer.release();
-
             Intent intent = new Intent(CallMicActivity.this, MainActivity.class);
-
             startActivity(intent);
-
         });
 
 

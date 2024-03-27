@@ -22,6 +22,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.Adapter.CallAdapter;
 import com.example.DAO.MessageDao;
 import com.example.Interface.IClickCall;
@@ -29,6 +30,11 @@ import com.example.Model.User;
 import com.example.myappcall.R;
 import com.example.view.OptionCallActivity;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -97,41 +103,73 @@ public class CallFragment extends Fragment {
 
     private void getData() {
 
-//        ArrayList<User> personCalls = new ArrayList<>();
+
+        try {
+
+            // load json
+            InputStream inputStream = getContext().getAssets().open("data.json");
+            int size = inputStream.available();
+            byte[] buffter = new byte[size];
+            inputStream.read(buffter);
+            inputStream.close();
+
+
+            // fetch json
+
+            String json;
+            int max;
+
+
+
+            json = new String(buffter, StandardCharsets.UTF_8);
+            JSONArray jsonArray = new JSONArray(json);
+            max = jsonArray.length();
+
+            for (int i = 0; i < max; i++) {
+
+                User user = new User();
+
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                user.setId(jsonObject.getInt("id"));
+                user.setPersonName(jsonObject.getString("name"));
+                user.setPersonAvt(jsonObject.getString("avatar"));
+                user.setUrlVideo(jsonObject.getString("videoCall"));
+                Log.d("324242",user.getId() + " == " + user.getPersonAvt());
+
+                 userArrayList.add(user);
+            }
+            callAdapter.notifyDataSetChanged();
+
+
+        } catch (Exception e) {
+        }
+
+//        Observable.fromCallable(() -> messageDao.getListPerson())
+//                .subscribeOn(Schedulers.io()) // thuc hien tren bakcgorund thread
+//                .observeOn(AndroidSchedulers.mainThread())  // get result tren UI thread
+//                .subscribe(new Observer<List<User>>() {
+//                    @Override
+//                    public void onSubscribe(@NonNull Disposable d) {
 //
-//        personCalls.add(new User("A", "img_1.png", "video1"));
-//        personCalls.add(new User("B", "img_1.png", "video1"));
-//        personCalls.add(new User("C", "img_1.png", "video1"));
-//        personCalls.add(new User("D", "img_1.png", "video1"));
-//        personCalls.add(new User("E", "img_1.png", "video1"));
-
-
-        Observable.fromCallable(() -> messageDao.getListPerson())
-                .subscribeOn(Schedulers.io()) // thuc hien tren bakcgorund thread
-                .observeOn(AndroidSchedulers.mainThread())  // get result tren UI thread
-                .subscribe(new Observer<List<User>>() {
-                    @Override
-                    public void onSubscribe(@NonNull Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onNext(@NonNull List<User> users) {
-                        userArrayList.addAll(users);
-                        callAdapter.notifyDataSetChanged();
-                        Log.d("faasdfewr", users.size() + " ");
-                    }
-
-                    @Override
-                    public void onError(@NonNull Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
+//                    }
+//
+//                    @Override
+//                    public void onNext(@NonNull List<User> users) {
+//                        userArrayList.addAll(users);
+//                        callAdapter.notifyDataSetChanged();
+//                        Log.d("faasdfewr", users.size() + " ");
+//                    }
+//
+//                    @Override
+//                    public void onError(@NonNull Throwable e) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onComplete() {
+//
+//                    }
+//                });
 
 
     }
@@ -144,10 +182,7 @@ public class CallFragment extends Fragment {
         TextView tvName = dialogView.findViewById(R.id.tvName);
         tvName.setText(user.getPersonName());
 
-        // xet resoure voi kieu string cho img
-        String s = user.getPersonAvt();
-        int resourceId = getResources().getIdentifier(s, "drawable", getContext().getPackageName());
-        imgAvatar.setImageResource(resourceId);
+        Glide.with(getContext()).load(user.getPersonAvt()).into(imgAvatar);
 
         builder.setView(dialogView);
         AlertDialog dialog = builder.create();

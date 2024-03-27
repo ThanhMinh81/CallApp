@@ -16,13 +16,14 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.bumptech.glide.Glide;
 import com.example.Model.User;
 import com.example.myappcall.R;
 import com.google.android.material.imageview.ShapeableImageView;
 
 public class OptionCallActivity extends AppCompatActivity {
 
-    ImageView imgCallVideo, imgCallMic, imgEndCall;
+    ImageView imgCallMic, imgEndCall, imgAnimation;
 
     Boolean checkCallVideo = false;
     ShapeableImageView shapeableImageView;
@@ -36,19 +37,23 @@ public class OptionCallActivity extends AppCompatActivity {
         setContentView(R.layout.activity_option_call);
 
         initWidget();
+
         if (checkCallVideo) {
-            imgCallMic.setVisibility(View.GONE);
 
-            startAnimation(imgCallVideo);
+            imgCallMic.setImageResource(R.drawable.ic_callvideo);
 
-            imgCallVideo.setOnClickListener(v -> {
+            startAnimation(imgAnimation);
+
+            imgCallMic.setOnClickListener(v -> {
                 Intent intent = new Intent(OptionCallActivity.this, CallVideoActivity.class);
                 intent.putExtra("Object", user);
                 startActivity(intent);
             });
+
         } else {
-            imgCallVideo.setVisibility(View.GONE);
-            startAnimation(imgCallMic);
+            imgCallMic.setImageResource(R.drawable.ic_call);
+
+            startAnimation(imgAnimation);
 
             imgCallMic.setOnClickListener(v -> {
                 Intent intent = new Intent(OptionCallActivity.this, CallMicActivity.class);
@@ -66,15 +71,16 @@ public class OptionCallActivity extends AppCompatActivity {
     private void initWidget() {
         checkCallVideo = (Boolean) getIntent().getExtras().get("checkCallVideo");
         user = getIntent().getExtras().getParcelable("Object");
-        imgCallVideo = this.<ImageView>findViewById(R.id.imgCallVideo);
+//        imgCallVideo = this.<ImageView>findViewById(R.id.imgCallVideo);
         imgCallMic = this.<ImageView>findViewById(R.id.imgCallMicro);
         shapeableImageView = findViewById(R.id.circle);
         imgEndCall = findViewById(R.id.imgEndCall);
+        imgAnimation = findViewById(R.id.imgAnimation);
         tvName = findViewById(R.id.tvNameCall);
         tvName.setText(user.getPersonName());
-        String s = user.getPersonAvt();
-        int resourceId = getResources().getIdentifier(s, "drawable", this.getPackageName());
-        shapeableImageView.setImageResource(resourceId);
+
+        Glide.with(this).load(user.getPersonAvt()).into(shapeableImageView);
+
     }
 
     public void startAnimation(View view) {

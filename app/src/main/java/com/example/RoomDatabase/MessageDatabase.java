@@ -33,16 +33,15 @@ public abstract class MessageDatabase extends RoomDatabase {
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);
 
-            db.execSQL("INSERT INTO personDB (personName, personAvt, urlVideo) VALUES ('Monster Man', 'img_camomonster', 'video1')");
-            db.execSQL("INSERT INTO personDB (personName, personAvt, urlVideo) VALUES ('G-man Monster', 'img_holymonster', 'video_2')");
-            db.execSQL("INSERT INTO personDB (personName, personAvt, urlVideo) VALUES ('DJ Monster', 'img_4', 'video_3')");
-            db.execSQL("INSERT INTO personDB (personName, personAvt, urlVideo) VALUES ('Holy Monster', 'img_5', 'video_4')");
-            db.execSQL("INSERT INTO personDB (personName, personAvt, urlVideo) VALUES ('Camo Monster', 'img_6', 'video_5')");
-            db.execSQL("INSERT INTO personDB (personName, personAvt, urlVideo) VALUES ('G-man Monster', 'img_8', 'video_2')");
-            db.execSQL("INSERT INTO personDB (personName, personAvt, urlVideo) VALUES ('Speaker Man', 'img_4', 'video_6')");
-            db.execSQL("INSERT INTO personDB (personName, personAvt, urlVideo) VALUES ('Urinal Monster', 'img_3', 'video_7')");
-            db.execSQL("INSERT INTO personDB (personName, personAvt, urlVideo) VALUES ('Grandpa Monster', 'img', 'video_8')");
-            db.execSQL("INSERT INTO personDB (personName, personAvt, urlVideo) VALUES ('Giant Monster', 'img', 'video_9')");
+            db.execSQL("INSERT INTO personDB (personName, personAvt, urlVideo) VALUES ('Camo Monster', 'https://storage.lutech.vn/app/PrankCall/AvatarUser/camomonster.png', 'https://storage.lutech.vn/app/PrankCall/VideoCall/video_camomonster.mp4')");
+            db.execSQL("INSERT INTO personDB (personName, personAvt, urlVideo) VALUES ('Giant Camera', 'https://storage.lutech.vn/app/PrankCall/AvatarUser/giantcamera.png', 'https://storage.lutech.vn/app/PrankCall/VideoCall/video_giantcamera.mp4')");
+            db.execSQL("INSERT INTO personDB (personName, personAvt, urlVideo) VALUES ('Grandpa Monster', 'https://storage.lutech.vn/app/PrankCall/AvatarUser/grandpamonster.png', 'https://storage.lutech.vn/app/PrankCall/VideoCall/video_grandpamonster.mp4')");
+            db.execSQL("INSERT INTO personDB (personName, personAvt, urlVideo) VALUES ('Holy Monster', 'https://storage.lutech.vn/app/PrankCall/AvatarUser/holymonster.png', 'https://storage.lutech.vn/app/PrankCall/VideoCall/video_holymonster.mp4')");
+            db.execSQL("INSERT INTO personDB (personName, personAvt, urlVideo) VALUES ('Mafia Monster', 'https://storage.lutech.vn/app/PrankCall/AvatarUser/mafiamonster.png', 'https://storage.lutech.vn/app/PrankCall/VideoCall/video_mafiamonster.mp4')");
+            db.execSQL("INSERT INTO personDB (personName, personAvt, urlVideo) VALUES ('G-man Monster', 'https://storage.lutech.vn/app/PrankCall/AvatarUser/speakerman.png', 'https://storage.lutech.vn/app/PrankCall/VideoCall/video_speakerman.mp4')");
+            db.execSQL("INSERT INTO personDB (personName, personAvt, urlVideo) VALUES ('Titan Camera', 'https://storage.lutech.vn/app/PrankCall/AvatarUser/titancamera.png', 'https://storage.lutech.vn/app/PrankCall/VideoCall/video_titancamera.mp4')");
+            db.execSQL("INSERT INTO personDB (personName, personAvt, urlVideo) VALUES ('Titan Speaker', 'https://storage.lutech.vn/app/PrankCall/AvatarUser/titanspeaker.png', 'https://storage.lutech.vn/app/PrankCall/VideoCall/video_titanspeaker.mp4')");
+
 
         }
     };

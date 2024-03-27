@@ -18,6 +18,9 @@ public class User implements Parcelable {
 
     private String urlVideo;
 
+    public User() {
+    }
+
     public User(String personName, String personAvt, String urlVideo) {
         this.personName = personName;
         this.personAvt = personAvt;
@@ -86,5 +89,15 @@ public class User implements Parcelable {
         parcel.writeString(personName);
         parcel.writeString(personAvt);
         parcel.writeString(urlVideo);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", personName='" + personName + '\'' +
+                ", personAvt='" + personAvt + '\'' +
+                ", urlVideo='" + urlVideo + '\'' +
+                '}';
     }
 }

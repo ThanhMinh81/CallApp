@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.Interface.IClickMess;
 import com.example.Model.UserWithChat;
 import com.example.myappcall.R;
@@ -52,9 +53,12 @@ public class DirectAdapter extends RecyclerView.Adapter<DirectAdapter.ViewHolder
 
 
         // xet resoure voi kieu string cho img
-        String s = userWithChat.getUser().getPersonAvt();
-        int resourceId = context.getResources().getIdentifier(s, "drawable", context.getPackageName());
-        holder.shapeableImageView.setImageResource(resourceId);
+//        String s = userWithChat.getUser().getPersonAvt();
+//        int resourceId = context.getResources().getIdentifier(s, "drawable", context.getPackageName());
+//        holder.shapeableImageView.setImageResource(resourceId);
+
+        Glide.with(context).load(userWithChat.getUser().getPersonAvt()).into(holder.shapeableImageView);
+
 
 
         holder.tvName.setText(userWithChat.getUser().getPersonName());

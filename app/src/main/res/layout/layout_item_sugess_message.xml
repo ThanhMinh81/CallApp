@@ -3,6 +3,7 @@
     android:layout_width="wrap_content"
     android:id="@+id/layoutSuggest"
     android:layout_height="wrap_content"
+    android:layout_marginRight="10dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
@@ -10,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_item_message_send"
-        android:padding="10dp"
+        android:padding="5dp"
         android:text="ED It's just a joke bro , I'm still alive.
         while, it that true I'm traveling all over Europe and I post my trip on
         Instagram every day. Do you know my Insta?"

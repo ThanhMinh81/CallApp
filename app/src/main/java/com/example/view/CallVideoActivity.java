@@ -80,9 +80,8 @@ public class CallVideoActivity extends AppCompatActivity {
         VideoView videoView = findViewById(R.id.videoView);
 
 
-        int resID = getResources().getIdentifier(user.getUrlVideo().trim(), "raw", getPackageName());
-        String videoPath = "android.resource://" + getPackageName() + "/" + resID;
-        videoView.setVideoURI(Uri.parse(videoPath));
+        videoView.setVideoPath(user.getUrlVideo());
+        videoView.start();
 
 
         videoView.setOnErrorListener((mp, what, extra) -> {
@@ -92,7 +91,6 @@ public class CallVideoActivity extends AppCompatActivity {
         videoView.setOnCompletionListener(mp -> {
         });
 
-        videoView.start();
 
         pressEndCall.setOnClickListener(v -> {
             Intent intent = new Intent(CallVideoActivity.this, MainActivity.class);

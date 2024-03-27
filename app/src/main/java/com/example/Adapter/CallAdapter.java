@@ -1,6 +1,7 @@
 package com.example.Adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,10 +49,18 @@ public class CallAdapter extends RecyclerView.Adapter<CallAdapter.ViewHolder> {
 
         User user = users.get(position);
 
-        String s = user.getPersonAvt();
-        int resourceId = context.getResources().getIdentifier(s, "drawable", context.getPackageName());
-        holder.imgAvtar.setImageResource(resourceId);
-        // Glide.with(context).load(getImage("img_1")).into(holder.imgAvtar);
+//        String s = user.getPersonAvt();
+//        int resourceId = context.getResources().getIdentifier(s, "drawable", context.getPackageName());
+//        holder.imgAvtar.setImageResource(resourceId);
+        Log.d("r0w-er",user.getPersonAvt());
+        try {
+            Glide.with(context).load(user.getPersonAvt()).into(holder.imgAvtar);
+        }catch (Exception e)
+        {
+            Log.d("730249204",e.toString());
+        }
+
+
         holder.imgAvtar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

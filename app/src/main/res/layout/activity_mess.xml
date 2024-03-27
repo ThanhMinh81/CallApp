@@ -74,7 +74,9 @@
                     android:layout_marginTop="5dp"
                     android:text="Active Now"
                     android:textColor="#949699"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"/>
+
+
             </RelativeLayout>
 
         </LinearLayout>

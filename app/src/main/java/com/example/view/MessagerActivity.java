@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
+import com.bumptech.glide.Glide;
 import com.example.Adapter.MessageAdapter;
 import com.example.Adapter.SuggestAdapter;
 import com.example.DAO.MessageDao;
@@ -85,9 +86,11 @@ public class MessagerActivity extends AppCompatActivity {
         tvTyping.setVisibility(View.GONE);
         nav_back = this.<ImageView>findViewById(R.id.nav_back);
 
-        String s = userWithChat.getUser().getPersonAvt();
-        int resourceId = getResources().getIdentifier(s, "drawable", getPackageName());
-        imgAvatar.setImageResource(resourceId);
+//        String s = userWithChat.getUser().getPersonAvt();
+//        int resourceId = getResources().getIdentifier(s, "drawable", getPackageName());
+//        imgAvatar.setImageResource(resourceId);
+
+        Glide.with(this).load(userWithChat.getUser().getPersonAvt()).into(imgAvatar);
 
         tvNamePerson.setText(userWithChat.getUser().getPersonName());
 

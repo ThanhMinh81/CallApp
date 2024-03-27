@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
     MessageDatabase messageDatabase;
     MessageDao messageDao;
     RadioButton rbNavigationCall, rbNavigationDirect;
-    ConstraintLayout linearLayout;
+    ConstraintLayout layoutCheckBoxSetting;
     NavigationBarView.OnItemSelectedListener onItemSelectedListener;
 
     ImageView imgPlayVideo;
@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
 
         messageDao = messageDatabase.messageDao();
 
-        linearLayout = this.<ConstraintLayout>findViewById(R.id.layoutCheckbox);
+        layoutCheckBoxSetting = this.<ConstraintLayout>findViewById(R.id.layoutCheckbox);
 
         cbSound.setVisibility(View.GONE);
         cbRing.setVisibility(View.GONE);
@@ -92,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
         handleEventClick();
 
     }
+
 
 
     private void handleEventClick() {
@@ -123,11 +124,11 @@ public class MainActivity extends AppCompatActivity {
             }
 
             if (checkBox1.isChecked()) {
-                linearLayout.setBackground(getDrawable(R.drawable.bg_checkbox));
+                layoutCheckBoxSetting.setBackground(getDrawable(R.drawable.bg_checkbox));
                 cbSound.setVisibility(View.VISIBLE);
                 cbRing.setVisibility(View.VISIBLE);
             } else {
-                linearLayout.setBackground(getDrawable(R.drawable.bg_checkboxfalse));
+                layoutCheckBoxSetting.setBackground(getDrawable(R.drawable.bg_checkboxfalse));
                 cbSound.setVisibility(View.GONE);
                 cbRing.setVisibility(View.GONE);
             }
