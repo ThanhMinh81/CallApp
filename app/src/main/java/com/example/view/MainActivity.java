@@ -13,11 +13,15 @@ import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -55,11 +59,14 @@ public class MainActivity extends AppCompatActivity {
 
     SharedPreferences pref;
 
-
     // am thanh cua nut cai dat
       MediaPlayer mediaSetting;
 
     Vibrator vibrate ;
+
+    TextView tvCallWith ;
+
+    ConstraintLayout constraintLayoutToolbar ;
 
 
     @Override
@@ -78,6 +85,9 @@ public class MainActivity extends AppCompatActivity {
                         MessageDatabase.class, "message-database")
                 .addCallback(roomCallback) // goi den static trong db
                 .build();
+
+        // cai nay de an thanh status bar
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         messageDao = messageDatabase.messageDao();
 
@@ -98,8 +108,44 @@ public class MainActivity extends AppCompatActivity {
     private void handleEventClick() {
         radioGroup.setOnCheckedChangeListener((radioGroup, i) -> {
             if (i == R.id.rbNavigationCall) {
+
+                tvCallWith.setVisibility(View.VISIBLE);
+                // Khởi tạo giá trị dp
+                float dpValue = 100f; // Đây là chiều cao mong muốn tính theo dp
+
+// Chuyển đổi dp thành pixel
+                float pixels = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpValue, getResources().getDisplayMetrics());
+
+// Lấy tham chiếu đến view cần điều chỉnh chiều cao
+                ConstraintLayout myView = findViewById(R.id.constraintLayoutToolbar); // Thay "my_view" bằng ID của view bạn muốn điều chỉnh
+
+// Đặt chiều cao mới cho view
+                myView.getLayoutParams().height = (int) pixels;
+
+// Cập nhật layout params của view
+                myView.requestLayout();
+
+
+
                 replaceFragment(new CallFragment(messageDao));
             } else {
+                Log.d("fasfas","434534");
+                tvCallWith.setVisibility(View.GONE);
+                // Khởi tạo giá trị dp
+                float dpValue = 60f; // Đây là chiều cao mong muốn tính theo dp
+
+// Chuyển đổi dp thành pixel
+                float pixels = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpValue, getResources().getDisplayMetrics());
+
+// Lấy tham chiếu đến view cần điều chỉnh chiều cao
+                ConstraintLayout myView = findViewById(R.id.constraintLayoutToolbar); // Thay "my_view" bằng ID của view bạn muốn điều chỉnh
+
+// Đặt chiều cao mới cho view
+                myView.getLayoutParams().height = (int) pixels;
+
+// Cập nhật layout params của view
+                myView.requestLayout();
+
                 replaceFragment(new DirectFragment(messageDao));
             }
         });
@@ -175,9 +221,11 @@ public class MainActivity extends AppCompatActivity {
     private void initWidget() {
 
         cbSetting = findViewById(R.id.cbSetting);
+        tvCallWith = findViewById(R.id.tvCallWith);
         cbSound = findViewById(R.id.cbSound);
         cbRing = findViewById(R.id.cbRing);
         imgPlayVideo = findViewById(R.id.imgPlayVideo);
+        constraintLayoutToolbar = findViewById(R.id.constraintLayoutToolbar);
 
         mediaSetting = MediaPlayer.create(MainActivity.this,R.raw.sound_click);
 

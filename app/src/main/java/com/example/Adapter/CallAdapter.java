@@ -25,13 +25,11 @@ public class CallAdapter extends RecyclerView.Adapter<CallAdapter.ViewHolder> {
 
     IClickCall iClickCall;
 
-
     public CallAdapter(ArrayList<User> users, Context context, IClickCall iClickCall) {
         this.users = users;
         this.context = context;
         this.iClickCall = iClickCall;
     }
-
 
     @NonNull
     @Override
@@ -52,12 +50,11 @@ public class CallAdapter extends RecyclerView.Adapter<CallAdapter.ViewHolder> {
 //        String s = user.getPersonAvt();
 //        int resourceId = context.getResources().getIdentifier(s, "drawable", context.getPackageName());
 //        holder.imgAvtar.setImageResource(resourceId);
-        Log.d("r0w-er",user.getPersonAvt());
+        Log.d("r0w-er", user.getPersonAvt());
         try {
             Glide.with(context).load(user.getPersonAvt()).into(holder.imgAvtar);
-        }catch (Exception e)
-        {
-            Log.d("730249204",e.toString());
+        } catch (Exception e) {
+            Log.d("730249204", e.toString());
         }
 
 
