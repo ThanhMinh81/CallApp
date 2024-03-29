@@ -6,19 +6,26 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -44,9 +51,6 @@ import com.google.android.material.navigation.NavigationBarView;
 public class MainActivity extends AppCompatActivity {
 
 
-    //    SharedPreferences pref =  MainActivity.this.getSharedPreferences("mode_setting", 0); // 0 - for private mode
-//    SharedPreferences.Editor editor = pref.edit();
-
     CheckBox cbSetting, cbSound, cbRing;
     RadioGroup radioGroup;
     MessageDatabase messageDatabase;
@@ -60,34 +64,40 @@ public class MainActivity extends AppCompatActivity {
     SharedPreferences pref;
 
     // am thanh cua nut cai dat
-      MediaPlayer mediaSetting;
+    MediaPlayer mediaSetting;
 
-    Vibrator vibrate ;
+    Vibrator vibrate;
 
-    TextView tvCallWith ;
+    TextView tvCallWith;
 
-    ConstraintLayout constraintLayoutToolbar ;
+    ConstraintLayout constraintLayoutToolbar;
+
+    LinearLayout layoutSearchView;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
+
+
+        hideStatusBar();
+
+
         setContentView(R.layout.activity_main2);
 
         initWidget();
 
         pref = MainActivity.this.getSharedPreferences("mode_setting", 0);
 
-         vibrate = (Vibrator) getSystemService(MainActivity.this.VIBRATOR_SERVICE);
+        vibrate = (Vibrator) getSystemService(MainActivity.this.VIBRATOR_SERVICE);
 
-        messageDatabase = Room.databaseBuilder(this,
-                        MessageDatabase.class, "message-database")
-                .addCallback(roomCallback) // goi den static trong db
+        messageDatabase = Room.databaseBuilder(this, MessageDatabase.class, "message-database").addCallback(roomCallback) // goi den static trong db
                 .build();
 
+
         // cai nay de an thanh status bar
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         messageDao = messageDatabase.messageDao();
 
@@ -96,55 +106,51 @@ public class MainActivity extends AppCompatActivity {
         cbSound.setVisibility(View.GONE);
         cbRing.setVisibility(View.GONE);
         replaceFragment(new CallFragment(messageDao));
+        changeSizeToolBar(tvCallWith, layoutSearchView, true);
 
-        // su ly su kien click
 
         handleEventClick();
 
     }
 
+    private void changeSizeToolBar(TextView tvCall, LinearLayout layoutSearchView, boolean call) {
+
+        if (call) {
+            tvCall.setVisibility(View.VISIBLE);
+            layoutSearchView.setVisibility(View.GONE);
+            float dpValue = 90f;
+            float pixels = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpValue, getResources().getDisplayMetrics());
+            ConstraintLayout myView = findViewById(R.id.constraintLayoutToolbar);
+            myView.getLayoutParams().height = (int) pixels;
+            myView.requestLayout();
+        } else {
+            tvCall.setVisibility(View.GONE);
+            layoutSearchView.setVisibility(View.VISIBLE);
+            float dpValue = 135f;
+            float pixels = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpValue, getResources().getDisplayMetrics());
+            ConstraintLayout myView = findViewById(R.id.constraintLayoutToolbar);
+            myView.getLayoutParams().height = (int) pixels;
+            myView.requestLayout();
+        }
+
+    }
 
 
     private void handleEventClick() {
         radioGroup.setOnCheckedChangeListener((radioGroup, i) -> {
             if (i == R.id.rbNavigationCall) {
 
-                tvCallWith.setVisibility(View.VISIBLE);
-                // Khởi tạo giá trị dp
-                float dpValue = 100f; // Đây là chiều cao mong muốn tính theo dp
+                changeSizeToolBar(tvCallWith, layoutSearchView, true);
 
-// Chuyển đổi dp thành pixel
-                float pixels = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpValue, getResources().getDisplayMetrics());
-
-// Lấy tham chiếu đến view cần điều chỉnh chiều cao
-                ConstraintLayout myView = findViewById(R.id.constraintLayoutToolbar); // Thay "my_view" bằng ID của view bạn muốn điều chỉnh
-
-// Đặt chiều cao mới cho view
-                myView.getLayoutParams().height = (int) pixels;
-
-// Cập nhật layout params của view
-                myView.requestLayout();
-
+                changeColorNavigatonBottom(true);
 
 
                 replaceFragment(new CallFragment(messageDao));
+
             } else {
-                Log.d("fasfas","434534");
-                tvCallWith.setVisibility(View.GONE);
-                // Khởi tạo giá trị dp
-                float dpValue = 60f; // Đây là chiều cao mong muốn tính theo dp
+                changeSizeToolBar(tvCallWith, layoutSearchView, false);
 
-// Chuyển đổi dp thành pixel
-                float pixels = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpValue, getResources().getDisplayMetrics());
-
-// Lấy tham chiếu đến view cần điều chỉnh chiều cao
-                ConstraintLayout myView = findViewById(R.id.constraintLayoutToolbar); // Thay "my_view" bằng ID của view bạn muốn điều chỉnh
-
-// Đặt chiều cao mới cho view
-                myView.getLayoutParams().height = (int) pixels;
-
-// Cập nhật layout params của view
-                myView.requestLayout();
+                changeColorNavigatonBottom(false);
 
                 replaceFragment(new DirectFragment(messageDao));
             }
@@ -164,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
                     //deprecated in API 26
                     vibrate.vibrate(100);
                 }
-                
+
                 mediaSetting.start();
 
             }
@@ -218,6 +224,104 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+
+    private void changeColorNavigatonBottom(boolean checkCall) {
+        // xu ly khi ma calling dang duoc check
+        if (checkCall) {
+            RadioButton rbCall = findViewById(R.id.rbNavigationCall);
+            Drawable drawableRBCall = rbCall.getCompoundDrawables()[1]; // Lấy drawableTop của RadioButton (index 1)
+            if (drawableRBCall != null) {
+                drawableRBCall.setColorFilter(ContextCompat.getColor(this, R.color.white), PorterDuff.Mode.SRC_IN);
+            }
+            rbCall.setCompoundDrawables(null, drawableRBCall, null, null); // Cập nhật drawableTop mới vào RadioButton
+
+            RadioButton rbDir = findViewById(R.id.rbNavigationDirect);
+            Drawable drawableRBDir = rbDir.getCompoundDrawables()[1]; // Lấy drawableTop của RadioButton (index 1)
+            if (drawableRBDir != null) {
+                drawableRBDir.setColorFilter(ContextCompat.getColor(this, R.color.colorIcNav), PorterDuff.Mode.SRC_IN);
+            }
+            rbDir.setCompoundDrawables(null, drawableRBDir, null, null);
+
+            changeColorTitleNavigatonBottom(true);
+
+
+        } else {
+
+            // xu ly khi calling chua dc checkk
+            RadioButton radioButton = findViewById(R.id.rbNavigationCall);
+            Drawable drawable = radioButton.getCompoundDrawables()[1]; // Lấy drawableTop của RadioButton (index 1)
+            if (drawable != null) {
+                drawable.setColorFilter(ContextCompat.getColor(this, R.color.colorIcNav), PorterDuff.Mode.SRC_IN);
+            }
+            radioButton.setCompoundDrawables(null, drawable, null, null);
+
+            RadioButton rbDir = findViewById(R.id.rbNavigationDirect);
+            Drawable drawableRBDir = rbDir.getCompoundDrawables()[1]; // Lấy drawableTop của RadioButton (index 1)
+            if (drawableRBDir != null) {
+                drawableRBDir.setColorFilter(ContextCompat.getColor(this, R.color.white), PorterDuff.Mode.SRC_IN);
+            }
+
+            rbDir.setCompoundDrawables(null, drawableRBDir, null, null); // Cập nhật drawableTop mới vào RadioButton
+            changeColorTitleNavigatonBottom(false);
+
+        }
+
+    }
+
+    private void changeColorTitleNavigatonBottom(boolean checkCall) {
+
+        if (checkCall) {
+            RadioButton rbTextCall = findViewById(R.id.rbNavigationCall);
+            CharSequence currentTextCall = rbTextCall.getText();
+            SpannableString spannableStringCall = new SpannableString(currentTextCall);
+            int colorCall = ContextCompat.getColor(this, R.color.white); // Màu bạn muốn thiết lập
+            ForegroundColorSpan colorSpanCall = new ForegroundColorSpan(colorCall);
+            spannableStringCall.setSpan(colorSpanCall, 0, spannableStringCall.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            rbTextCall.setText(spannableStringCall);
+            RadioButton rbTextMess = findViewById(R.id.rbNavigationDirect);
+            CharSequence currentTextMess = rbTextMess.getText();
+            SpannableString spannableStringMess = new SpannableString(currentTextMess);
+            int colorMess = ContextCompat.getColor(this, R.color.colorIcNav); // Màu bạn muốn thiết lập
+            ForegroundColorSpan colorSpanMess = new ForegroundColorSpan(colorMess);
+            spannableStringMess.setSpan(colorSpanMess, 0, spannableStringMess.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            rbTextMess.setText(spannableStringMess);
+
+        } else {
+            RadioButton rbTextCall = findViewById(R.id.rbNavigationCall);
+            CharSequence currentTextCall = rbTextCall.getText();
+            SpannableString spannableStringCall = new SpannableString(currentTextCall);
+            int colorCall = ContextCompat.getColor(this, R.color.colorIcNav); // Màu bạn muốn thiết lập
+            ForegroundColorSpan colorSpanCall = new ForegroundColorSpan(colorCall);
+            spannableStringCall.setSpan(colorSpanCall, 0, spannableStringCall.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            rbTextCall.setText(spannableStringCall);
+            RadioButton rbTextMess = findViewById(R.id.rbNavigationDirect);
+            CharSequence currentTextMess = rbTextMess.getText();
+            SpannableString spannableStringMess = new SpannableString(currentTextMess);
+            int colorMess = ContextCompat.getColor(this, R.color.white); // Màu bạn muốn thiết lập
+            ForegroundColorSpan colorSpanMess = new ForegroundColorSpan(colorMess);
+            spannableStringMess.setSpan(colorSpanMess, 0, spannableStringMess.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            rbTextMess.setText(spannableStringMess);
+        }
+    }
+
+
+    void hideStatusBar() {
+        if (Build.VERSION.SDK_INT < 16) {
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            requestWindowFeature(Window.FEATURE_NO_TITLE);
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            getWindow().getDecorView().setBackgroundColor(Color.WHITE);
+
+        } else {
+            View decorView = getWindow().getDecorView();
+            int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
+            decorView.setSystemUiVisibility(uiOptions);
+            requestWindowFeature(Window.FEATURE_NO_TITLE);
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            getWindow().getDecorView().setBackgroundColor(Color.WHITE);
+        }
+    }
+
     private void initWidget() {
 
         cbSetting = findViewById(R.id.cbSetting);
@@ -226,28 +330,35 @@ public class MainActivity extends AppCompatActivity {
         cbRing = findViewById(R.id.cbRing);
         imgPlayVideo = findViewById(R.id.imgPlayVideo);
         constraintLayoutToolbar = findViewById(R.id.constraintLayoutToolbar);
+        layoutSearchView = findViewById(R.id.layoutSearchView);
 
-        mediaSetting = MediaPlayer.create(MainActivity.this,R.raw.sound_click);
+        mediaSetting = MediaPlayer.create(MainActivity.this, R.raw.sound_click);
 
         rbNavigationCall = this.<RadioButton>findViewById(R.id.rbNavigationCall);
         rbNavigationDirect = this.<RadioButton>findViewById(R.id.rbNavigationDirect);
         radioGroup = this.<RadioGroup>findViewById(R.id.rgGroupNavigation);
 
         //check permission and request
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.CAMERA},
-                    10);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 10);
         } else {
         }
 
         rbNavigationCall.setChecked(true);
+        changeColorNavigatonBottom(true);
         rbNavigationDirect.setChecked(false);
         colorCheckbox(rbNavigationCall);
         colorCheckbox(rbNavigationDirect);
 
+        RadioButton radioButton = findViewById(R.id.rbNavigationCall);
+        Drawable drawable = radioButton.getCompoundDrawables()[1]; // Lấy drawableTop của RadioButton (index 1)
+        if (drawable != null) {
+            drawable.setColorFilter(ContextCompat.getColor(this, R.color.white), PorterDuff.Mode.SRC_IN);
+        }
+        radioButton.setCompoundDrawables(null, drawable, null, null); // Cập nhật drawableTop mới vào RadioButton
+
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);

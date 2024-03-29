@@ -2,16 +2,15 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_marginBottom="50dp"
+    android:layout_marginBottom="100dp"
     android:layout_height="match_parent">
 
     <LinearLayout
+        android:gravity="center"
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="130dp"
         android:background="@drawable/bg_toolbar_mess"
-
-
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -19,8 +18,8 @@
         <ImageView
             android:layout_marginRight="7dp"
             android:id="@+id/nav_back"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_gravity="center"
             android:src="@drawable/ic_back" />
 
@@ -36,8 +35,8 @@
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/circleAvatar"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
+                    android:layout_width="65dp"
+                    android:layout_height="65dp"
                     android:scaleType="centerCrop"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -45,11 +44,12 @@
                     app:srcCompat="@drawable/img" />
 
                 <View
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:translationX="-1dp"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
                     android:layout_gravity="bottom|end"
                     android:background="@drawable/bg_activity_mes"
-                    android:paddingRight="20dp" />
+                 />
 
             </FrameLayout>
 
@@ -61,20 +61,22 @@
 
                 <TextView
                     android:id="@+id/tvName"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/montserrat_semibold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Monster Man"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:textSize="18sp" />
 
                 <TextView
+                    android:fontFamily="@font/montserrat_regular"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tvName"
                     android:layout_marginTop="5dp"
                     android:text="Active Now"
-                    android:textColor="#949699"
-                    android:textSize="20sp"/>
+                    android:textColor="#7B7B7D"
+                    android:textSize="14sp"/>
 
 
             </RelativeLayout>
@@ -84,20 +86,19 @@
 
         <ImageView
             android:id="@+id/imgCallMic"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_gravity="center"
-            android:layout_marginLeft="25dp"
-            android:layout_marginRight="5dp"
-            android:padding="10dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="3dp"
             android:src="@drawable/ic_call" />
 
         <ImageView
             android:id="@+id/imgVideoCall"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="50dp"
+            android:layout_marginLeft="2dp"
+            android:layout_height="50dp"
             android:layout_gravity="center"
-            android:padding="10dp"
             android:src="@drawable/ic_callvideo" />
 
 
@@ -153,9 +154,15 @@
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:background="@color/colorMess"
         android:id="@+id/rcvSugessMess"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="70dp"
+        android:scrollbars="horizontal"
+        android:foregroundGravity="center"
+
+        android:fadeScrollbars="false"
+        android:scrollbarSize="5dp"
         app:layout_constraintBottom_toBottomOf="parent" />
 
 

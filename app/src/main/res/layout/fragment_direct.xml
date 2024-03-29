@@ -3,51 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="10dp"
+    android:layout_marginTop="15dp"
     android:orientation="vertical"
+    android:padding="0dp"
     tools:context="com.example.Fragment.DirectFragment">
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:background="@drawable/bg_search"
-        android:orientation="horizontal"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <EditText
-            android:id="@+id/edSearchView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:background="@null"
-            android:fontFamily="@font/cousine_italic"
-            android:hint="Search"
-            android:maxLines="10"
-            android:textColorHint="#8D8F91"
-            android:textSize="25sp"
-            android:textStyle="italic" />
-
-        <ImageView
-            android:layout_width="37dp"
-            android:layout_height="37dp"
-            android:layout_gravity="center"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/ic_search" />
-
-    </LinearLayout>
-
     <androidx.recyclerview.widget.RecyclerView
+        android:padding="0dp"
+        android:clipToPadding="false"
         android:id="@+id/rcvDirect"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="10dp"
-        android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />

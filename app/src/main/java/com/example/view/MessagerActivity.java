@@ -269,7 +269,13 @@ public class MessagerActivity extends AppCompatActivity {
         linearLayoutManager.setStackFromEnd(true);
         rcvMess.setLayoutManager(linearLayoutManager);
         suggestAdapter = new SuggestAdapter(suggestList, iClickSuggest, MessagerActivity.this);
-        rcvSuggest.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
+
+
+//
+        LinearLayoutManager linearLayoutManager1 =   new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false);
+//        linearLayoutManager1.setGravity(Gravity.CENTER);
+
+        rcvSuggest.setLayoutManager(linearLayoutManager1);
         rcvSuggest.setAdapter(suggestAdapter);
         messageList.addAll(userWithChat.getChatMessages());
         messageAdapter.notifyDataSetChanged();

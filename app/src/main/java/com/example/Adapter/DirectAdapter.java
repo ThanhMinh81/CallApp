@@ -57,7 +57,10 @@ public class DirectAdapter extends RecyclerView.Adapter<DirectAdapter.ViewHolder
 //        int resourceId = context.getResources().getIdentifier(s, "drawable", context.getPackageName());
 //        holder.shapeableImageView.setImageResource(resourceId);
 
+
         Glide.with(context).load(userWithChat.getUser().getPersonAvt()).into(holder.shapeableImageView);
+        Log.d("erw7r0wq523432---3--3-3",userWithChat.getUser().getPersonAvt());
+
 
 
 
@@ -103,8 +106,6 @@ public class DirectAdapter extends RecyclerView.Adapter<DirectAdapter.ViewHolder
             }
 
 
-        } else {
-            holder.tvMess.setText("New messager");
         }
 
         holder.constraintLayout.setOnClickListener(view -> {

@@ -5,135 +5,181 @@
     android:id="@+id/activity_camera"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="18dp"
+    android:background="@android:color/transparent"
     android:orientation="vertical">
 
-  <LinearLayout
-      android:layout_weight="2"
-      android:padding="8dp"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:orientation="vertical">
-      <androidx.constraintlayout.widget.ConstraintLayout
-          android:id="@+id/constraintLayoutToolbar"
-          android:layout_width="match_parent"
-          android:layout_height="100dp"
-          android:layout_marginTop="7dp"
-          android:layout_marginRight="10dp"
-          android:gravity="center"
-          android:orientation="horizontal"
-          app:layout_constraintStart_toStartOf="parent"
-          app:layout_constraintTop_toTopOf="parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:orientation="vertical">
 
-          <androidx.constraintlayout.widget.ConstraintLayout
-              android:id="@+id/layoutCheckbox"
-              android:layout_width="wrap_content"
-              android:layout_height="50dp"
-              android:orientation="horizontal"
-              android:paddingLeft="10dp"
-              android:paddingRight="10dp"
-              app:layout_constraintStart_toStartOf="parent"
-              app:layout_constraintTop_toTopOf="parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayoutToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-              <CheckBox
-                  android:id="@+id/cbSetting"
-                  android:layout_width="40dp"
-                  android:layout_height="40dp"
-                  android:background="@drawable/vector"
-                  android:backgroundTint="@null"
-                  android:button="@null"
-                  app:layout_constraintBottom_toBottomOf="parent"
-                  app:layout_constraintStart_toStartOf="parent"
-                  app:layout_constraintTop_toTopOf="parent" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layoutCheckbox"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginLeft="12dp"
+                android:orientation="horizontal"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_goneMarginLeft="5dp">
 
-              <CheckBox
-                  android:id="@+id/cbSound"
-                  android:layout_width="40dp"
-                  android:layout_height="40dp"
-                  android:layout_marginLeft="5dp"
-                  android:background="@drawable/cb_sound"
-                  android:button="@null"
-                  app:layout_constraintBottom_toBottomOf="parent"
-                  app:layout_constraintStart_toEndOf="@+id/cbSetting"
-                  app:layout_constraintTop_toTopOf="parent" />
+                <CheckBox
+                    android:id="@+id/cbSetting"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/vector"
+                    android:backgroundTint="@null"
+                    android:button="@null"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-              <CheckBox
-                  android:id="@+id/cbRing"
-                  android:layout_width="40dp"
-                  android:layout_height="40dp"
-                  android:layout_marginLeft="10dp"
-                  android:background="@drawable/cb_ring"
-                  android:button="@null"
-                  app:layout_constraintBottom_toBottomOf="parent"
-                  app:layout_constraintStart_toEndOf="@+id/cbSound"
-                  app:layout_constraintTop_toTopOf="parent" />
+                <CheckBox
+                    android:id="@+id/cbSound"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="5dp"
+                    android:background="@drawable/cb_sound"
+                    android:button="@null"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/cbSetting"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-          </androidx.constraintlayout.widget.ConstraintLayout>
+                <CheckBox
+                    android:id="@+id/cbRing"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/cb_ring"
+                    android:button="@null"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/cbSound"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-
-          <FrameLayout
-              android:layout_width="60dp"
-              android:layout_height="60dp"
-              app:layout_constraintEnd_toEndOf="parent"
-              app:layout_constraintTop_toTopOf="parent">
-
-              <androidx.cardview.widget.CardView
-                  android:layout_width="60dp"
-                  android:layout_height="60dp"
-                  app:cardCornerRadius="10dp">
-
-                  <ImageView
-                      android:id="@+id/imgPlayVideo"
-                      android:layout_width="60dp"
-                      android:layout_height="60dp"
-                      android:paddingLeft="1dp"
-                      android:scaleType="centerCrop"
-                      android:src="@drawable/ic_hotvideo"
-                      app:layout_constraintBottom_toBottomOf="parent"
-                      app:layout_constraintEnd_toEndOf="parent"
-                      app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-                  <LinearLayout
-                      android:layout_width="match_parent"
-                      android:layout_height="match_parent"
-                      android:background="@drawable/bg_hotvideo" />
+            <FrameLayout
+                android:layout_width="68dp"
+                android:layout_height="63dp"
+                android:layout_marginRight="18dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-              </androidx.cardview.widget.CardView>
+                <androidx.cardview.widget.CardView
+                    android:layout_width="68dp"
+                    android:layout_height="63dp"
+                    app:cardCornerRadius="10dp">
+
+                    <ImageView
+                        android:id="@+id/imgPlayVideo"
+                        android:layout_width="68dp"
+                        android:layout_height="63dp"
+                        android:paddingLeft="1dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_hotvideo"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
 
-          </FrameLayout>
+                    <LinearLayout
 
-          <TextView
-              android:id="@+id/tvCallWith"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_gravity="center"
-              android:fontFamily="@font/archivo_black"
-              android:text="CALL WITH"
-              android:textColor="@color/black"
-              android:textSize="32sp"
-              android:textStyle="bold"
-              app:layout_constraintEnd_toEndOf="parent"
-              app:layout_constraintStart_toStartOf="parent"
-              app:layout_constraintTop_toBottomOf="@+id/layoutCheckbox" />
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/bg_hotvideo" />
 
-      </androidx.constraintlayout.widget.ConstraintLayout>
-      <FrameLayout
-          android:id="@+id/frame_container"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_weight="1"
-          app:layout_constraintEnd_toEndOf="parent"
-          app:layout_constraintStart_toStartOf="parent"
-          app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
-  </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+
+            </FrameLayout>
+
+
+            <TextView
+                android:id="@+id/tvCallWith"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/archivo_black"
+                android:text="CALL WITH"
+                android:textColor="@color/black"
+                android:textSize="32sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layoutCheckbox" />
+
+            <LinearLayout
+                android:id="@+id/layoutSearchView"
+                android:layout_width="match_parent"
+                android:layout_height="65dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="13dp"
+                android:layout_marginRight="12dp"
+                android:background="@drawable/bg_search"
+                android:orientation="horizontal"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layoutCheckbox">
+
+                <EditText
+                    android:id="@+id/edSearchView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:fontFamily="@font/cousine_italic"
+                    android:hint="Search"
+                    android:maxLines="10"
+                    android:textColorHint="#8D8F91"
+                    android:textSize="25sp"
+                    android:textStyle="italic" />
+
+                <ImageView
+                    android:layout_width="37dp"
+                    android:layout_height="37dp"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/ic_search" />
+
+            </LinearLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <FrameLayout
+            android:id="@+id/frame_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+
+    </LinearLayout>
 
 
     <LinearLayout
-
         android:id="@+id/bottomNavigationView"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="130dp"
         android:layout_marginBottom="30dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -151,19 +197,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/checkbox_naviagtion_bg_call"
-                android:backgroundTint="@null"
+                android:background="@drawable/checkbox_checked"
                 android:button="@drawable/checkbox_checked"
-                android:buttonTint="@color/cardview_dark_background"
-                android:drawableTop="@drawable/ic_call_navigation"
+                android:drawableTop="@drawable/checkbox_icon_selector"
                 android:focusable="false"
+                android:fontFamily="@font/montserrat_semibold"
                 android:gravity="center"
                 android:paddingTop="20dp"
-                android:paddingBottom="20dp"
+                android:paddingBottom="35dp"
                 android:scaleX="1"
                 android:scaleY="1"
                 android:text="Calling"
-                android:textSize="13dp"
+                android:textSize="15dp"
                 android:textStyle="bold" />
 
             <RadioButton
@@ -171,14 +216,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/checkbox_naviagtion_bg_call"
+                android:background="@drawable/checkbox_checked"
                 android:backgroundTint="@null"
                 android:button="@null"
                 android:drawableTop="@drawable/ic_direct"
                 android:focusable="false"
+                android:fontFamily="@font/montserrat_semibold"
                 android:gravity="center"
                 android:paddingTop="20dp"
-                android:paddingBottom="20dp"
+                android:paddingBottom="35dp"
                 android:scaleX="1"
                 android:scaleY="1"
                 android:text="Direct"
@@ -188,7 +234,6 @@
         </RadioGroup>
 
     </LinearLayout>
-
 
 
 </LinearLayout>

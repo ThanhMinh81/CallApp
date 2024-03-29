@@ -1,19 +1,19 @@
 [
   {
     "id": "1",
-    "name": "Camo Monster",
+    "name": "Monster Man",
     "avatar": "https://storage.lutech.vn/app/PrankCall/AvatarUser/camomonster.png",
     "videoCall": "https://storage.lutech.vn/app/PrankCall/VideoCall/video_camomonster.mp4"
   },
   {
     "id": "2",
-    "name": "Giant Camera",
+    "name": "G-man Monster",
     "avatar": "https://storage.lutech.vn/app/PrankCall/AvatarUser/giantcamera.png",
     "videoCall": "https://storage.lutech.vn/app/PrankCall/VideoCall/video_giantcamera.mp4"
   },
   {
     "id": "3",
-    "name": "Grandpa Monster",
+    "name": "DJ Monster",
     "avatar": "https://storage.lutech.vn/app/PrankCall/AvatarUser/grandpamonster.png",
     "videoCall": "https://storage.lutech.vn/app/PrankCall/VideoCall/video_grandpamonster.mp4"
   },
@@ -25,8 +25,8 @@
   },
   {
     "id": "5",
-    "name": "Mafia Monster",
-    "avatar": "https://storage.lutech.vn/app/PrankCall/AvatarUser/mafiamonster.png",
+    "name": "Camo Monster",
+    "avatar": "https://storage.lutech.vn/app/PrankCall/AvatarUser/camomonster.png",
     "videoCall": "https://storage.lutech.vn/app/PrankCall/VideoCall/video_mafiamonster.mp4"
   },
   {
@@ -44,7 +44,65 @@
   {
     "id": "8",
     "name": "Titan Speaker",
+    "avatar": "https://storage.lutech.vn/app/PrankCall/AvatarUser/camomonster.png",
+    "videoCall": "https://storage.lutech.vn/app/PrankCall/VideoCall/video_titanspeaker.mp4"
+  },
+
+  {
+    "id": "9",
+    "name": "Rocket Monster",
+    "avatar": "https://storage.lutech.vn/app/PrankCall/AvatarUser/giantcamera.png",
+    "videoCall": "https://storage.lutech.vn/app/PrankCall/VideoCall/video_titanspeaker.mp4"
+  },
+
+  {
+    "id": "10",
+    "name": "Hydra Monster",
+    "avatar": "https://storage.lutech.vn/app/PrankCall/AvatarUser/holymonster.png",
+    "videoCall": "https://storage.lutech.vn/app/PrankCall/VideoCall/video_titanspeaker.mp4"
+  },
+
+  {
+    "id": "11",
+    "name": "Urinal Monster",
+    "avatar": "https://storage.lutech.vn/app/PrankCall/AvatarUser/speakerman.png",
+    "videoCall": "https://storage.lutech.vn/app/PrankCall/VideoCall/video_titanspeaker.mp4"
+  },
+
+  {
+    "id": "12",
+    "name": "Spider Camera",
+    "avatar": "https://storage.lutech.vn/app/PrankCall/AvatarUser/camomonster.png",
+    "videoCall": "https://storage.lutech.vn/app/PrankCall/VideoCall/video_titanspeaker.mp4"
+  },
+
+
+  {
+    "id": "13",
+    "name": "Grandpa Monster",
+    "avatar": "https://storage.lutech.vn/app/PrankCall/AvatarUser/grandpamonster.png",
+    "videoCall": "https://storage.lutech.vn/app/PrankCall/VideoCall/video_holymonster.mp4"
+  },
+
+  {
+    "id": "14",
+    "name": "Giant Monster",
     "avatar": "https://storage.lutech.vn/app/PrankCall/AvatarUser/titanspeaker.png",
     "videoCall": "https://storage.lutech.vn/app/PrankCall/VideoCall/video_titanspeaker.mp4"
+  },
+
+  {
+    "id": "15",
+    "name": "Giant Camera",
+    "avatar": "https://storage.lutech.vn/app/PrankCall/AvatarUser/holymonster.png",
+    "videoCall": "https://storage.lutech.vn/app/PrankCall/VideoCall/video_giantcamera.mp4"
+  },
+  {
+    "id": "16",
+    "name": "Mafia Monster",
+    "avatar": "https://storage.lutech.vn/app/PrankCall/AvatarUser/speakerman.png",
+    "videoCall": "https://storage.lutech.vn/app/PrankCall/VideoCall/video_speakerman.mp4"
   }
+
+
 ]

@@ -2,6 +2,7 @@ package com.example.view;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -24,8 +25,19 @@ import com.example.Model.User;
 import com.example.myappcall.R;
 import com.google.android.material.imageview.ShapeableImageView;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class CallMicActivity extends AppCompatActivity {
 
@@ -71,21 +83,24 @@ public class CallMicActivity extends AppCompatActivity {
         timer = new Timer();
 
         mediaPlayer = new MediaPlayer();
-        try {
+            
 
 
-            mediaPlayer.setDataSource(user.getUrlVideo());
+                try {
 
-            // chuanbi
-            mediaPlayer.prepare();
 
-            // start
-            mediaPlayer.start();
-            startTimer();
-        } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(getApplicationContext(), "looiio roi" + e.toString(), Toast.LENGTH_SHORT).show();
-        }
+                mediaPlayer.setDataSource(user.getUrlVideo());
+
+                // chuanbi
+                mediaPlayer.prepare();
+
+                // start
+                mediaPlayer.start();
+                startTimer();
+            } catch (Exception e) {
+                e.printStackTrace();
+                Toast.makeText(getApplicationContext(), "looiio roi" + e.toString(), Toast.LENGTH_SHORT).show();
+            }
 
         pressEndCall.setOnClickListener(v -> {
             mediaPlayer.release();

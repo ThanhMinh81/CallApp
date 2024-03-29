@@ -143,7 +143,7 @@ public class CallFragment extends Fragment {
 
         } catch (Exception e) {
         }
-
+//
 //        Observable.fromCallable(() -> messageDao.getListPerson())
 //                .subscribeOn(Schedulers.io()) // thuc hien tren bakcgorund thread
 //                .observeOn(AndroidSchedulers.mainThread())  // get result tren UI thread
