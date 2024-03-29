@@ -44,6 +44,10 @@ public class ListVideoActivity extends AppCompatActivity {
         rcvListVideo = findViewById(R.id.rcvPlayVideo);
 
         iClickCall = user -> {
+
+            MainActivity.checkSoundAndVibarte();
+
+
             Intent intent = new Intent();
             intent.putExtra("Object",user);
             setResult(Activity.RESULT_OK,intent);

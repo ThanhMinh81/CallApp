@@ -8,22 +8,25 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -39,19 +42,23 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.room.Room;
 
 import com.example.DAO.MessageDao;
 import com.example.Fragment.CallFragment;
 import com.example.Fragment.DirectFragment;
+import com.example.Model.SearchViewModel;
+import com.example.Model.UserWithChat;
 import com.example.RoomDatabase.MessageDatabase;
 import com.example.myappcall.R;
 import com.google.android.material.navigation.NavigationBarView;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.ArrayList;
 
+public class MainActivity extends AppCompatActivity   {
 
-    CheckBox cbSetting, cbSound, cbRing;
+    CheckBox cbSetting, cbSound, cbVibrator;
     RadioGroup radioGroup;
     MessageDatabase messageDatabase;
     MessageDao messageDao;
@@ -61,12 +68,12 @@ public class MainActivity extends AppCompatActivity {
 
     ImageView imgPlayVideo;
 
-    SharedPreferences pref;
+    static SharedPreferences pref;
 
     // am thanh cua nut cai dat
-    MediaPlayer mediaSetting;
+    static MediaPlayer mediaSetting;
 
-    Vibrator vibrate;
+    static Vibrator vibrate;
 
     TextView tvCallWith;
 
@@ -74,6 +81,9 @@ public class MainActivity extends AppCompatActivity {
 
     LinearLayout layoutSearchView;
 
+    SearchViewModel searchViewModel ;
+
+    EditText edSearchView ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main2);
 
-        initWidget();
+
 
         pref = MainActivity.this.getSharedPreferences("mode_setting", 0);
 
@@ -94,6 +104,10 @@ public class MainActivity extends AppCompatActivity {
 
         messageDatabase = Room.databaseBuilder(this, MessageDatabase.class, "message-database").addCallback(roomCallback) // goi den static trong db
                 .build();
+
+        searchViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
+
+        initWidget();
 
 
         // cai nay de an thanh status bar
@@ -104,12 +118,17 @@ public class MainActivity extends AppCompatActivity {
         layoutCheckBoxSetting = this.<ConstraintLayout>findViewById(R.id.layoutCheckbox);
 
         cbSound.setVisibility(View.GONE);
-        cbRing.setVisibility(View.GONE);
+        cbVibrator.setVisibility(View.GONE);
         replaceFragment(new CallFragment(messageDao));
         changeSizeToolBar(tvCallWith, layoutSearchView, true);
 
 
         handleEventClick();
+
+
+
+
+
 
     }
 
@@ -126,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             tvCall.setVisibility(View.GONE);
             layoutSearchView.setVisibility(View.VISIBLE);
-            float dpValue = 135f;
+            float dpValue = 145f;
             float pixels = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpValue, getResources().getDisplayMetrics());
             ConstraintLayout myView = findViewById(R.id.constraintLayoutToolbar);
             myView.getLayoutParams().height = (int) pixels;
@@ -137,6 +156,14 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void handleEventClick() {
+
+
+
+        rbNavigationCall.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            checkSoundAndVibarte();
+
+        });
+
         radioGroup.setOnCheckedChangeListener((radioGroup, i) -> {
             if (i == R.id.rbNavigationCall) {
 
@@ -159,35 +186,24 @@ public class MainActivity extends AppCompatActivity {
         cbSetting.setOnClickListener(v -> {
             CheckBox checkBox1 = (CheckBox) v;
 
-            boolean soundClick = pref.getBoolean("sound", false);
-            if (soundClick) {
-
-                Log.d("2345432", "23043902" + " ");
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    vibrate.vibrate(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE));
-                } else {
-                    //deprecated in API 26
-                    vibrate.vibrate(100);
-                }
-
-                mediaSetting.start();
-
-            }
+            checkSoundAndVibarte();
 
             if (checkBox1.isChecked()) {
                 layoutCheckBoxSetting.setBackground(getDrawable(R.drawable.bg_checkbox));
                 cbSound.setVisibility(View.VISIBLE);
-                cbRing.setVisibility(View.VISIBLE);
+                cbVibrator.setVisibility(View.VISIBLE);
             } else {
                 layoutCheckBoxSetting.setBackground(getDrawable(R.drawable.bg_checkboxfalse));
                 cbSound.setVisibility(View.GONE);
-                cbRing.setVisibility(View.GONE);
+                cbVibrator.setVisibility(View.GONE);
             }
         });
 
 
         imgPlayVideo.setOnClickListener(v -> {
+
+            MainActivity.checkSoundAndVibarte();
+
             Intent intent = new Intent(MainActivity.this, PlayVideoActivity.class);
             startActivity(intent);
         });
@@ -207,7 +223,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        cbRing.setOnClickListener(v -> {
+        cbVibrator.setOnClickListener(v -> {
 
             CheckBox cb = (CheckBox) v;
 
@@ -222,6 +238,42 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
+    }
+
+    public static void checkSoundAndVibarte() {
+
+        boolean soundClick = pref.getBoolean("sound", false);
+        boolean vibarteClick = pref.getBoolean("ring", false);
+        Log.d("soundClick", soundClick + " ");
+        Log.d("vibarateClick", vibarteClick + " ");
+
+
+        if (soundClick && vibarteClick) {
+
+            // ca rung va am thanh
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                vibrate.vibrate(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE));
+            } else {
+                //deprecated in API 26
+                vibrate.vibrate(100);
+            }
+
+            mediaSetting.start();
+
+        } else if (vibarteClick) {
+            // rung thoi
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                vibrate.vibrate(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE));
+            } else {
+                vibrate.vibrate(100);
+            }
+        } else if (soundClick) {
+
+            mediaSetting.start();
+
+        }
+
     }
 
 
@@ -324,19 +376,62 @@ public class MainActivity extends AppCompatActivity {
 
     private void initWidget() {
 
+
+        boolean soundClick = pref.getBoolean("sound", false);
+        boolean vibarteClick = pref.getBoolean("ring", false);
+
+
+
         cbSetting = findViewById(R.id.cbSetting);
         tvCallWith = findViewById(R.id.tvCallWith);
         cbSound = findViewById(R.id.cbSound);
-        cbRing = findViewById(R.id.cbRing);
+        cbVibrator = findViewById(R.id.cbRing);
         imgPlayVideo = findViewById(R.id.imgPlayVideo);
         constraintLayoutToolbar = findViewById(R.id.constraintLayoutToolbar);
         layoutSearchView = findViewById(R.id.layoutSearchView);
+        edSearchView = findViewById(R.id.edSearchView);
 
         mediaSetting = MediaPlayer.create(MainActivity.this, R.raw.sound_click);
 
         rbNavigationCall = this.<RadioButton>findViewById(R.id.rbNavigationCall);
         rbNavigationDirect = this.<RadioButton>findViewById(R.id.rbNavigationDirect);
         radioGroup = this.<RadioGroup>findViewById(R.id.rgGroupNavigation);
+
+        edSearchView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                 searchViewModel.setKeyWordSearch(String.valueOf(s));
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
+
+
+//        BitmapDrawable bd = (BitmapDrawable) this.getResources().getDrawable(R.drawable.rotate_drawable_uncheck_call);
+//
+//        int iconWidth = bd.getBitmap().getWidth();
+//        float density = getResources().getDisplayMetrics().density; // Lấy tỉ lệ mật độ của thiết bị
+//        int leftPaddingDP = 16; // Giả sử bạn muốn đặt padding là 16dp
+//        int leftPaddingPX = (int) (leftPaddingDP * density); // Chuyển đổi dp sang px
+//
+//        int leftPadding = (rbNavigationCall.getWidth() / 2) - (iconWidth / 2) - leftPaddingPX;
+//
+//        rbNavigationCall.setPadding(leftPadding, 0, 0, 0);
+
+
+        if(soundClick)
+        {
+            cbSound.setChecked(true);
+        }
+        if (vibarteClick)
+        {
+            cbVibrator.setChecked(true);
+        }
 
         //check permission and request
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
@@ -396,6 +491,5 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
-
 
 }

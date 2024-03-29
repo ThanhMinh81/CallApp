@@ -28,6 +28,7 @@ import com.example.DAO.MessageDao;
 import com.example.Interface.IClickCall;
 import com.example.Model.User;
 import com.example.myappcall.R;
+import com.example.view.MainActivity;
 import com.example.view.OptionCallActivity;
 
 import org.json.JSONArray;
@@ -80,16 +81,10 @@ public class CallFragment extends Fragment {
         iClickCall = new IClickCall() {
             @Override
             public void callPerson(User user) {
+                MainActivity.checkSoundAndVibarte();
                 showDialogCall(user);
             }
         };
-
-//        iClickCall = new IClickCall() {
-//            @Override
-//            public void callPerson(User personCall) {
-//                showDialogCall2(personCall);
-//            }
-//        };
 
 
         callAdapter = new CallAdapter(userArrayList, this.getContext(), iClickCall);
@@ -120,7 +115,6 @@ public class CallFragment extends Fragment {
             int max;
 
 
-
             json = new String(buffter, StandardCharsets.UTF_8);
             JSONArray jsonArray = new JSONArray(json);
             max = jsonArray.length();
@@ -134,16 +128,16 @@ public class CallFragment extends Fragment {
                 user.setPersonName(jsonObject.getString("name"));
                 user.setPersonAvt(jsonObject.getString("avatar"));
                 user.setUrlVideo(jsonObject.getString("videoCall"));
-                Log.d("324242",user.getId() + " == " + user.getPersonAvt());
+                Log.d("324242", user.getId() + " == " + user.getPersonAvt());
 
-                 userArrayList.add(user);
+                userArrayList.add(user);
             }
             callAdapter.notifyDataSetChanged();
 
 
         } catch (Exception e) {
         }
-//
+
 //        Observable.fromCallable(() -> messageDao.getListPerson())
 //                .subscribeOn(Schedulers.io()) // thuc hien tren bakcgorund thread
 //                .observeOn(AndroidSchedulers.mainThread())  // get result tren UI thread
@@ -208,6 +202,9 @@ public class CallFragment extends Fragment {
 
         //videocall
         videoCall.setOnClickListener(v -> {
+
+            MainActivity.checkSoundAndVibarte();
+
             Intent intent = new Intent(getContext(), OptionCallActivity.class);
             intent.putExtra("checkCallVideo", true);
             intent.putExtra("Object", user);
@@ -216,6 +213,10 @@ public class CallFragment extends Fragment {
 
 
         microCall.setOnClickListener(v -> {
+
+            MainActivity.checkSoundAndVibarte();
+
+
             Intent intent = new Intent(getContext(), OptionCallActivity.class);
             intent.putExtra("checkCallVideo", false);
             intent.putExtra("Object", user);
@@ -225,6 +226,10 @@ public class CallFragment extends Fragment {
 
 
         closeCall.setOnClickListener(v -> {
+
+            MainActivity.checkSoundAndVibarte();
+
+
             dialog.dismiss();
         });
 

@@ -8,6 +8,7 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,13 +23,16 @@ import android.widget.EditText;
 import com.example.Adapter.DirectAdapter;
 import com.example.DAO.MessageDao;
 import com.example.Interface.IClickMess;
+import com.example.Interface.ISearchList;
 import com.example.Model.ChatMessage;
+import com.example.Model.SearchViewModel;
 import com.example.Model.User;
 import com.example.Model.UserWithChat;
 import com.example.myappcall.R;
 import com.example.view.MessagerActivity;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -57,6 +61,9 @@ public class DirectFragment extends Fragment {
 
     SharedPreferences sharedpreferences;
 
+    public static ISearchList iSearchList;
+
+
     public DirectFragment() {
     }
 
@@ -76,6 +83,15 @@ public class DirectFragment extends Fragment {
         searchList = new ArrayList<>();
 
 
+        SearchViewModel searchViewModel = new ViewModelProvider(requireActivity()).get(SearchViewModel.class);
+
+        searchViewModel.getKeyWordSearch().observe(getViewLifecycleOwner(), new androidx.lifecycle.Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                searchViewFunc(s);
+            }
+        });
+
         sharedpreferences = getContext().getSharedPreferences("mode_setting", Context.MODE_PRIVATE);
         boolean ac = sharedpreferences.getBoolean("bababa", false);
         Log.d("3094702470", ac + " ");
@@ -92,48 +108,54 @@ public class DirectFragment extends Fragment {
         rcvDirect.setAdapter(directAdapter);
         rcvDirect.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
 
-//        searchMessage();
 
         getData();
 
         return view;
     }
 
-//    private void searchMessage() {
-//        edSearchView.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+    private void searchViewFunc(String s) {
+
+        if (s.length() == 0) {
+            chatArrayList.clear();
+            chatArrayList.addAll(searchList);
+            directAdapter.notifyDataSetChanged();
+        }
+        if (s.length() > 0) {
+            chatArrayList.clear();
+            directAdapter.notifyDataSetChanged();
+            for (UserWithChat userWithChat : searchList) {
+
+
+              String[]  strings  = userWithChat.getUser().getPersonName().split("(?!^)");
+
+//                List<String> characters = Arrays.asList(strings);
+//                 if(characters.con)
+
+
+
+
+
+
+
+
+//                String name = userWithChat.getUser().getPersonName().replaceAll("\\s+", " ");
 //
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//
-//                 if(s.length() == 0)
-//                 {
-//                     chatArrayList.clear();
-//                   chatArrayList.addAll(searchList);
-//                   directAdapter.notifyDataSetChanged();
-//                 }
-//                 if(s.length() > 0) {
-//                     chatArrayList.clear();
-//                     directAdapter.notifyDataSetChanged();
-//                     for (UserWithChat  userWithChat: searchList) {
-//                         if(userWithChat.getUser().getPersonName().contains(s.toString()) ||
-//                                 userWithChat.getUser().getPersonName().contains(s.toString().toLowerCase()) ||
-//                                 userWithChat.getUser().getPersonName().contains(s.toString().toUpperCase()))
-//                         {
-//                             chatArrayList.add(userWithChat);
-//                             directAdapter.notifyDataSetChanged();
-//                         }
-//                     }
-//                 }
-//
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {}
-//        });
-//
-//    }
+//                if (
+//                                name.trim().contains(s.toString().trim()) ||
+//                                name.contains(s.toString().toLowerCase()) ||
+//                                name.contains(s.toString().toUpperCase()) ||
+//                                name.contains(s.substring(0).toLowerCase()) ||
+//                                name.contains(s.substring(0).toUpperCase())
+//                ) {
+//                    chatArrayList.add(userWithChat);
+//                    directAdapter.notifyDataSetChanged();
+//                }
+            }
+        }
+
+    }
+
 
     @SuppressLint("CheckResult")
     @Override

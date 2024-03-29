@@ -2,9 +2,9 @@
     <!-- Icon cho trạng thái được chọn -->
 
     <!-- Icon cho trạng thái không được chọn -->
-    <item android:drawable="@drawable/o2" android:state_checked="true"/>
-    <item android:drawable="@drawable/o2" android:state_selected="true"/>
-    <item android:drawable="@drawable/o2" android:state_pressed="true"/>
+    <item android:drawable="@drawable/rotate_drawable_uncheck_call" android:state_checked="true"/>
+    <item android:drawable="@drawable/rotate_drawable_uncheck_call" android:state_selected="true"/>
+    <item android:drawable="@drawable/rotate_drawable_uncheck_call" android:state_pressed="true"/>
 
-    <item android:drawable="@drawable/o2" />
+    <item android:drawable="@drawable/rotate_drawable_uncheck_call" />
 </selector>

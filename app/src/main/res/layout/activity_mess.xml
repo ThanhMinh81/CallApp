@@ -6,32 +6,37 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:gravity="center"
+        android:layout_gravity="center_vertical"
+        android:paddingLeft="12dp"
+        android:paddingRight="8dp"
+        android:paddingTop="15dp"
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
-        android:layout_height="130dp"
+        android:layout_height="120dp"
         android:background="@drawable/bg_toolbar_mess"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:layout_marginRight="7dp"
+            android:layout_marginRight="3dp"
             android:id="@+id/nav_back"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_gravity="center"
             android:src="@drawable/ic_back" />
 
         <LinearLayout
+            android:layout_marginLeft="3dp"
+            android:layout_weight="1"
+           android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center">
 
             <FrameLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp">
+                android:layout_height="wrap_content">
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/circleAvatar"
@@ -53,53 +58,68 @@
 
             </FrameLayout>
 
-            <RelativeLayout
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
-                android:gravity="center">
+                android:gravity="center_vertical"
+                android:layout_marginLeft="5dp">
 
                 <TextView
+                    android:gravity="center"
+                    android:layout_weight="1"
                     android:id="@+id/tvName"
                     android:textColor="@color/black"
                     android:fontFamily="@font/montserrat_semibold"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Monster Man"
-                    android:textSize="18sp" />
+                    android:textSize="16sp" />
 
                 <TextView
-                    android:fontFamily="@font/montserrat_regular"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tvName"
-                    android:layout_marginTop="5dp"
+                    android:layout_alignParentBottom="true"
+                    android:gravity="center_vertical"
+                    android:fontFamily="@font/montserrat_regular"
                     android:text="Active Now"
+                    android:textStyle="bold"
                     android:textColor="#7B7B7D"
-                    android:textSize="14sp"/>
+                    android:layout_marginBottom="7dp"
+                    android:textSize="14sp" />
 
 
-            </RelativeLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+
+             android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/imgCallMic"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="3dp"
+                android:src="@drawable/ic_call" />
+
+            <ImageView
+                android:id="@+id/imgVideoCall"
+                android:layout_width="50dp"
+                android:layout_marginLeft="2dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_callvideo" />
 
         </LinearLayout>
 
 
-        <ImageView
-            android:id="@+id/imgCallMic"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:layout_marginLeft="32dp"
-            android:layout_marginRight="3dp"
-            android:src="@drawable/ic_call" />
-
-        <ImageView
-            android:id="@+id/imgVideoCall"
-            android:layout_width="50dp"
-            android:layout_marginLeft="2dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_callvideo" />
 
 
     </LinearLayout>

@@ -93,6 +93,10 @@ public class CallVideoActivity extends AppCompatActivity {
 
 
         pressEndCall.setOnClickListener(v -> {
+
+            MainActivity.checkSoundAndVibarte();
+
+
             Intent intent = new Intent(CallVideoActivity.this, MainActivity.class);
             startActivity(intent);
         });

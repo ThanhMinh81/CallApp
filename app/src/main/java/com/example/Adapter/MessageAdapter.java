@@ -1,6 +1,7 @@
 package com.example.Adapter;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.text.Html;
@@ -16,12 +17,14 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.Model.ChatMessage;
 import com.example.myappcall.R;
 
 import java.lang.reflect.Array;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -92,11 +95,21 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
             holder.tvReceive.setTextColor(context.getResources().getColor(R.color.white));
             holder.tvReceive.setBackground(context.getDrawable(R.drawable.bg_item_message_send));
 
-        } else {
+            Typeface typeface = ResourcesCompat.getFont(context, R.font.montserrat_regular);
+            holder.tvReceive.setTypeface(typeface,Typeface.NORMAL);
+
+
+        } else if(!chatMessage.isChecked()) {
 
             holder.linearLayout.setGravity(Gravity.LEFT);
             holder.tvReceive.setTextColor(context.getResources().getColor(R.color.black));
             holder.tvReceive.setBackground(context.getDrawable(R.drawable.bg_item_message));
+
+            Typeface typeface = ResourcesCompat.getFont(context, R.font.montserrat_regular);
+
+
+            holder.tvReceive.setTypeface(typeface, Typeface.BOLD);
+
         }
 
         if (position == chatMessages.size() - 1) {

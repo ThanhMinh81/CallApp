@@ -2,9 +2,12 @@ package com.example.view;
 
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -65,6 +68,8 @@ public class MessagerActivity extends AppCompatActivity {
 
     UserWithChat userWithChat;
 
+    Vibrator vibrate;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,9 +107,9 @@ public class MessagerActivity extends AppCompatActivity {
         messageList = new ArrayList<>();
         suggestList = new ArrayList<>();
 
+        vibrate = (Vibrator) getSystemService(MessagerActivity.this.VIBRATOR_SERVICE);
 
         handleEventClick();
-
 
         // rcv Message
         initValueRcv();
@@ -118,6 +123,13 @@ public class MessagerActivity extends AppCompatActivity {
         iClickSuggest = new IClickSuggest() {
             @Override
             public void Suggest(String s) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    vibrate.vibrate(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE));
+                } else {
+                    //deprecated in API 26
+                    vibrate.vibrate(100);
+                }
+
                 ChatMessage chatMessage = new ChatMessage();
                 addMessageList(s, chatMessage);
             }
@@ -138,13 +150,13 @@ public class MessagerActivity extends AppCompatActivity {
         });
 
         nav_back.setOnClickListener(view -> {
+
             userWithChat.setChatMessages(messageList);
             Intent intent = new Intent();
-
             intent.putExtra("Object", userWithChat);
-
             setResult(RESULT_OK, intent);
             finish();
+
         });
 
     }
@@ -206,15 +218,15 @@ public class MessagerActivity extends AppCompatActivity {
                 break;
 
             case "I'm Good":
-                result = "Super good , thank you friend! It's great to talk with you today <img src='cuoi_good'/> ";
+                result = "Super good, thank you friend! It's great to talk with you today <img src='cuoi_good'/> ";
                 break;
 
             case "Who are ":
-                result = "Basically , I'm the coolest monster in the world <img src='cuoi_who'/>   ";
+                result = "Basically, I'm the coolest monster in the world <img src='cuoi_who'/>   ";
                 break;
 
             case "Are you ":
-                result = "Youu can guess haha...";
+                result = "You can guess haha...";
                 break;
 
             case "What you":
@@ -226,15 +238,15 @@ public class MessagerActivity extends AppCompatActivity {
                 break;
 
             case "What kin":
-                result = "I love your lips <img src='cuoi'/> . It's delicious hahaha";
+                result = "I love your lips <img src='cuoi'/>. It's delicious hahaha";
                 break;
 
             case "But i he":
-                result = "It's just a koke bro <img src='cuoi_hi'/>  <img src='cuoi_hi'/> , I'm still alive . I'm" + " traveling all over Europe and I post my trip on Instagram every day , Do you know my Insta ? ";
+                result = "It's just a koke bro <img src='cuoi_hi'/>  <img src='cuoi_hi'/>, I'm still alive. I'm" + " traveling all over Europe and I post my trip on Instagram every day, Do you know my Insta? ";
                 break;
 
             case "What is ":
-                result = "I like traveling listening to music  , and buying shoes <img src='cuoi1'/> ";
+                result = "I like traveling listening to music, and buying shoes <img src='cuoi1'/> ";
                 break;
 
             case "Where ar":
@@ -258,7 +270,7 @@ public class MessagerActivity extends AppCompatActivity {
         suggestList.add("Thank you for this conversation <img src='cuoi1'/> <img src='cuoi1'/>");
         suggestList.add("Tell me a joke <img src='cuoi1'/> <img src='cuoi1'/>");
         suggestList.add("I'm Good , what about you ?");
-        suggestList.add("Where are you from ?");
+        suggestList.add("Where are you from?");
         suggestList.add("But i heard you're been dead for a while , it that true ? <img src='cuoi1'/>");
     }
 
@@ -272,7 +284,7 @@ public class MessagerActivity extends AppCompatActivity {
 
 
 //
-        LinearLayoutManager linearLayoutManager1 =   new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false);
+        LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false);
 //        linearLayoutManager1.setGravity(Gravity.CENTER);
 
         rcvSuggest.setLayoutManager(linearLayoutManager1);

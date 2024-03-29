@@ -87,14 +87,15 @@
 
             <TextView
                 android:layout_marginTop="12dp"
+                android:paddingRight="2dp"
                 android:id="@+id/tvMess"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
-                android:fontFamily="@font/montserrat_regular"
+                android:fontFamily="@font/montserrat_light"
                 android:maxLines="1"
                 android:text="New message"
-                android:textColor="@color/colorForCbNotCheck"
+                android:textColor="#777577"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"

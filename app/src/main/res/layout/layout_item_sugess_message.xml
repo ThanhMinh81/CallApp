@@ -9,6 +9,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
+        android:fontFamily="@font/montserrat_regular"
         android:id="@+id/messageSend"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -18,7 +19,7 @@
         while, it that true I'm traveling all over Europe and I post my trip on
         Instagram every day. Do you know my Insta?"
         android:textColor="@color/white"
-        android:textSize="20sp"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

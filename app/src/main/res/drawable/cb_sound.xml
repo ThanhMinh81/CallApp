@@ -4,6 +4,7 @@
     <item android:state_checked="false"
         android:drawable="@drawable/ic_sound"
         />
+
     <item android:state_checked="true"
         android:drawable="@drawable/ic_sound_mute"
         />

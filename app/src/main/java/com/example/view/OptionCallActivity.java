@@ -45,6 +45,10 @@ public class OptionCallActivity extends AppCompatActivity {
             startAnimation(imgAnimation);
 
             imgCallMic.setOnClickListener(v -> {
+
+                MainActivity.checkSoundAndVibarte();
+
+
                 Intent intent = new Intent(OptionCallActivity.this, CallVideoActivity.class);
                 intent.putExtra("Object", user);
                 startActivity(intent);
@@ -56,6 +60,10 @@ public class OptionCallActivity extends AppCompatActivity {
             startAnimation(imgAnimation);
 
             imgCallMic.setOnClickListener(v -> {
+
+                MainActivity.checkSoundAndVibarte();
+
+
                 Intent intent = new Intent(OptionCallActivity.this, CallMicActivity.class);
                 intent.putExtra("Object", user);
                 startActivity(intent);
@@ -63,7 +71,11 @@ public class OptionCallActivity extends AppCompatActivity {
         }
 
         imgEndCall.setOnClickListener(v -> {
+
+            MainActivity.checkSoundAndVibarte();
+
             finish();
+
         });
 
     }

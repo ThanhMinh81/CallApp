@@ -59,7 +59,7 @@ public class CallMicActivity extends AppCompatActivity {
 
     User user;
 
-    @SuppressLint("WrongViewCast")
+    @SuppressLint({"WrongViewCast", "CheckResult"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,17 +83,11 @@ public class CallMicActivity extends AppCompatActivity {
         timer = new Timer();
 
         mediaPlayer = new MediaPlayer();
-            
 
-
-                try {
-
-
+          try {
                 mediaPlayer.setDataSource(user.getUrlVideo());
-
                 // chuanbi
                 mediaPlayer.prepare();
-
                 // start
                 mediaPlayer.start();
                 startTimer();
@@ -102,13 +96,81 @@ public class CallMicActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "looiio roi" + e.toString(), Toast.LENGTH_SHORT).show();
             }
 
+
+
+          handleClickEvent();
+
+    }
+
+    @SuppressLint("CheckResult")
+    private void playMedia() {
+        Observable.fromCallable(() -> {
+                    String audioUrl = user.getUrlVideo();
+                    OkHttpClient client = new OkHttpClient();
+                    Request request = new Request.Builder()
+                            .url(audioUrl)
+                            .build();
+                    try {
+                        Response response = client.newCall(request).execute();
+                        if (!response.isSuccessful()) {
+                            throw new IOException("Unexpected code " + response);
+                        }
+                        return response.body().byteStream();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        throw e; // Throw exception để onError xử lý
+                    }
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(inputStream -> {
+                    try {
+                        File tempFile = File.createTempFile("temp_audio", ".mp3", getCacheDir());
+                        FileOutputStream outputStream = new FileOutputStream(tempFile);
+                        byte[] buffer = new byte[4096];
+                        int bytesRead;
+                        while ((bytesRead = inputStream.read(buffer)) != -1) {
+                            outputStream.write(buffer, 0, bytesRead);
+                        }
+                        inputStream.close();
+                        outputStream.close();
+
+                        // Phát âm thanh từ tệp tin MP3 đã tải xuống
+                        MediaPlayer mediaPlayer = new MediaPlayer();
+                        mediaPlayer.setDataSource(tempFile.getAbsolutePath());
+                        mediaPlayer.prepare();
+                        mediaPlayer.start();
+
+                        mediaPlayer.setOnCompletionListener(mp -> {
+                            mediaPlayer.release();
+                        });
+
+                        mediaPlayer.setOnErrorListener((mp, what, extra) -> {
+                            mediaPlayer.release();
+                            return false;
+                        });
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }, throwable -> {
+                    Log.e("RxJava", "Error occurred: " + throwable.getMessage());
+                    // Xử lý lỗi mạng ở đây, ví dụ: hiển thị thông báo cho người dùng
+                });
+
+    }
+
+    private void handleClickEvent() {
+        // su ly button end call
         pressEndCall.setOnClickListener(v -> {
+
+            MainActivity.checkSoundAndVibarte();
+
             mediaPlayer.release();
             Intent intent = new Intent(CallMicActivity.this, MainActivity.class);
             startActivity(intent);
         });
 
-
+        // su ly button mediaplay
         mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
@@ -126,7 +188,6 @@ public class CallMicActivity extends AppCompatActivity {
                 });
             }
         });
-
     }
 
 
