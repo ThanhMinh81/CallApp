@@ -116,6 +116,7 @@ public class DirectFragment extends Fragment {
 
     private void searchViewFunc(String s) {
 
+
         if (s.length() == 0) {
             chatArrayList.clear();
             chatArrayList.addAll(searchList);
@@ -124,33 +125,13 @@ public class DirectFragment extends Fragment {
         if (s.length() > 0) {
             chatArrayList.clear();
             directAdapter.notifyDataSetChanged();
-            for (UserWithChat userWithChat : searchList) {
+            for (UserWithChat userWithChat : searchList) {  
 
-
-              String[]  strings  = userWithChat.getUser().getPersonName().split("(?!^)");
-
-//                List<String> characters = Arrays.asList(strings);
-//                 if(characters.con)
-
-
-
-
-
-
-
-
-//                String name = userWithChat.getUser().getPersonName().replaceAll("\\s+", " ");
-//
-//                if (
-//                                name.trim().contains(s.toString().trim()) ||
-//                                name.contains(s.toString().toLowerCase()) ||
-//                                name.contains(s.toString().toUpperCase()) ||
-//                                name.contains(s.substring(0).toLowerCase()) ||
-//                                name.contains(s.substring(0).toUpperCase())
-//                ) {
-//                    chatArrayList.add(userWithChat);
-//                    directAdapter.notifyDataSetChanged();
-//                }
+                if (userWithChat.getUser().getPersonName().trim().contains(s.toString().trim()) ||
+                        userWithChat.getUser().getPersonName().toLowerCase().contains(s.toString().toLowerCase())) {
+                    chatArrayList.add(userWithChat);
+                    directAdapter.notifyDataSetChanged();
+                }
             }
         }
 

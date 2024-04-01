@@ -2,6 +2,7 @@ package com.example.view;
 
 import android.content.Intent;
 import android.media.Image;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -29,12 +30,19 @@ public class OptionCallActivity extends AppCompatActivity {
     ShapeableImageView shapeableImageView;
     TextView tvName;
     User user;
+    MediaPlayer mediaPlayer ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_option_call);
+
+        mediaPlayer = MediaPlayer.create(this, R.raw.sound_receiver);
+        mediaPlayer.start();
+        mediaPlayer.setLooping(true);
+
+
 
         initWidget();
 
@@ -48,6 +56,7 @@ public class OptionCallActivity extends AppCompatActivity {
 
                 MainActivity.checkSoundAndVibarte();
 
+                mediaPlayer.stop();
 
                 Intent intent = new Intent(OptionCallActivity.this, CallVideoActivity.class);
                 intent.putExtra("Object", user);
@@ -55,6 +64,8 @@ public class OptionCallActivity extends AppCompatActivity {
             });
 
         } else {
+            mediaPlayer.stop();
+
             imgCallMic.setImageResource(R.drawable.ic_call);
 
             startAnimation(imgAnimation);

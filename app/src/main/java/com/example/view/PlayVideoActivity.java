@@ -64,7 +64,7 @@ public class PlayVideoActivity extends AppCompatActivity {
             @Override
             public boolean onInfo(MediaPlayer mp, int what, int extra) {
                 if (what == MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START) {
-                    Log.d("fwetffiaf","2323480923480");
+                    Log.d("fwetffiaf", "2323480923480");
                     imgPauseVideo.setImageResource(R.drawable.ic_pause);
                     return true;
                 }
@@ -77,9 +77,6 @@ public class PlayVideoActivity extends AppCompatActivity {
             public void onCompletion(MediaPlayer mp) {
                 // phat xong thi pause video do
                 imgPauseVideo.setImageResource(R.drawable.ic_play2);
-
-
-
             }
         });
 
@@ -88,7 +85,6 @@ public class PlayVideoActivity extends AppCompatActivity {
         imgRepeatVideo.setOnClickListener(view -> {
 
             MainActivity.checkSoundAndVibarte();
-
             videoViewPlay.seekTo(0);
             videoViewPlay.start();
             imgPauseVideo.setImageResource(R.drawable.ic_pause);
@@ -142,12 +138,9 @@ public class PlayVideoActivity extends AppCompatActivity {
 
             MainActivity.checkSoundAndVibarte();
 
-
             try {
-
                 Intent intent = new Intent(PlayVideoActivity.this, ListVideoActivity.class);
                 startActivityForResult(intent, 10);
-
             } catch (Exception e) {
                 Log.d("|#@32323", e.toString());
             }

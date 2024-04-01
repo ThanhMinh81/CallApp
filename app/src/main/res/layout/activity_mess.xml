@@ -145,8 +145,9 @@
     </FrameLayout>
 
     <LinearLayout
+        android:gravity="center"
         android:id="@+id/layoutTyping"
-        android:layout_marginBottom="10dp"
+       android:paddingBottom="15dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -154,21 +155,23 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <TextView
+            android:fontFamily="@font/montserrat_regular"
+            android:textColor="#7B7B7D"
             android:id="@+id/tvCuoi"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvName"
             android:layout_marginTop="5dp"
             android:text="Typing"
-            android:textColor="#949699"
-            android:textSize="20sp" />
+            android:textSize="15sp" />
 
         <com.example.view.Typewriter
+            android:layout_gravity="bottom"
             android:id="@+id/typewriter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textColor="#949699" />
+            android:textSize="15sp"
+            android:textColor="#7B7B7D" />
 
 
     </LinearLayout>
